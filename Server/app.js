@@ -37,7 +37,7 @@ app.get('/abc', (req, res) => {
 
 app.use(passport.initialize())
 
-app.use(passport.session())
+// app.use(passport.session())
 
 setup(passport)
 
