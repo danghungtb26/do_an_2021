@@ -3,7 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 // import _ from 'lodash'
 import './api/database'
-import passport from 'passport'
+// import passport from 'passport'
 import cors from 'cors'
 import setup from './api/database/passport_config'
 // import routers from './api/routes'
@@ -35,11 +35,11 @@ app.get('/abc', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'src', 'app', 'index.jsx'))
 })
 
-app.use(passport.initialize())
+// app.use(passport.initialize())
 
-app.use(passport.session())
+// app.use(passport.session())
 
-setup(passport)
+// setup(passport)
 
 // app.use('/api', routers)
 app.use('', image)

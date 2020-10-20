@@ -14,6 +14,7 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["foo_", "_bar", "_id"] }],
     "react/static-property-placement": ["error", "property assignment" , {
       "contextTypes": "static public field",
       "childContextTypes": "static public field",

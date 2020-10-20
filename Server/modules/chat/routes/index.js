@@ -2,7 +2,7 @@
 /* eslint-disable func-names */
 import jwt from 'jsonwebtoken'
 import { secretkey } from '../../../api/database/config'
-import { newMessage } from '../database/method/Message'
+// import { newMessage } from '../database/method/Message'
 
 const setupSocket = server => {
   const io = require('socket.io')(server)
@@ -28,12 +28,12 @@ const setupSocket = server => {
 
     client.on('send_message', async params => {
       console.log('params', params)
-      const data = await newMessage({
-        room: params.room,
-        user: client.decoded.id,
-        text: params.message,
-      })
-      client.in(params.room || 'test').emit('receive_message', { ...data, oldId: params.id })
+      // const data = await newMessage({
+      //   room: params.room,
+      //   user: client.decoded.id,
+      //   text: params.message,
+      // })
+      // client.in(params.room || 'test').emit('receive_message', { ...data, oldId: params.id })
     })
 
     client.on('disconnect', () => {
