@@ -1,59 +1,58 @@
 import { hostApi } from '../database/config'
+import { UserQueries } from './queries'
+import { UserResolvers } from './resolvers'
+import typeDefs from './typedefs'
 
 const { ApolloServer, gql, PubSub } = require('apollo-server-express')
 
-const pubsub = new PubSub()
+// const pubsub = new PubSub()
 
 const ADD_DDD = 'ADD_DDD'
 
-const typeDefs = gql`
-  type Subscription {
-    postAdded: Hello
-  }
+// const typeDefs = gql`
+//   type Subscription {
+//     postAdded: Hello
+//   }
 
-  type Hello {
-    a: String
-  }
+//   type Hello {
+//     a: String
+//   }
 
-  type Query {
-    hello(a: String): Hello
-  }
+//   type Query {
+//     hello(a: String): Hello
+//   }
 
-  type Mutation {
-    add_hello: String
-    hello(a: String): Hello
-  }
-`
+//   type Mutation {
+//     add_hello: String
+//     hello(a: String): Hello
+//   }
+// `
 
 const resolvers = {
-  Subscription: {
-    postAdded: {
-      subscribe: () => pubsub.asyncIterator([ADD_DDD]),
-    },
-  },
+  // Subscription: {
+  //   postAdded: {
+  //     subscribe: () => pubsub.asyncIterator([ADD_DDD]),
+  //   },
+  // },
   Query: {
-    hello: (_, { a }) => {
-      console.log('a', a)
-      return {
-        a: `aaa${a}`,
-      }
-      // throw Error('aaa')
-    },
+    ...UserQueries,
   },
   Mutation: {
-    add_hello: () => 'aaaa',
-    hello: (_, { a }) => {
-      pubsub.publish(ADD_DDD, { postAdded: { a } })
-      console.log('a', a)
-      return {
-        a: `aaa${a}`,
-      }
-      // throw Error('aaa')
-    },
+    ...UserResolvers,
   },
 }
 
-const server = new ApolloServer({ typeDefs, resolvers, tracing: true })
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  tracing: true,
+  context: ({ req }) => {
+    const auth = req.headers.authorization || ''
+    return {
+      auth,
+    }
+  },
+})
 
 const setupGraphql = app => {
   server.applyMiddleware({ app })

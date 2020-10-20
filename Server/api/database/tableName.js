@@ -14,6 +14,7 @@ const table = {
   attachment: 'attachments',
   comment: 'comments',
   reactType: 'react_types',
+  seed: 'seeds',
 }
 
 export default table

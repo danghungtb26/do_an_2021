@@ -1,6 +1,9 @@
-import mongoose from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 import bcrypt from 'bcryptjs'
+import moment from 'moment'
 import table from '../tableName'
+import { user_status_list } from '../../constants'
+import { config_default_collection } from './utils'
 
 const { Schema, SchemaTypes } = mongoose
 
@@ -12,14 +15,18 @@ const method = {
     email: string
     phone: string
     role: number
+    created_at: string
+    updated_at: string
   } {
     return {
-      id: this.uuid,
+      id: this._id,
       name: this.name,
       introduction: this.introduction,
       email: this.email,
       phone: this.phone,
       role: this.role,
+      created_at: moment(this.created_at).format(),
+      updated_at: moment(this.updated_at).format(),
     }
   },
   getId: function getId(): string | number {
@@ -47,7 +54,7 @@ const method = {
    * func compare xem user đã đăng nhập đúng hay chưa
    * có 2 cách trả về là callback: (error và success)
    */
-  compare: function compare(password: string, callback: (error, value) => void): Promise<any> {
+  compare: function compare(password: string, callback?: (error, value) => void): Promise<any> {
     return new Promise((resolve, reject) => {
       bcrypt.compare(password, this.password, (err, isMatch) => {
         if (typeof callback === 'function') callback(err, isMatch)
@@ -63,7 +70,7 @@ const method = {
    * @param callback
    * func này sử dụng salt để generate ra hash_password lưu vào trong database
    */
-  generate: function generate(callback: (error, success) => void): Promise<any> {
+  generate: function generate(callback?: (error, success) => void): Promise<any> {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, (err, salt) => {
         if (err) {
@@ -87,6 +94,7 @@ const User = new Schema<typeof method>(
   {
     name: {
       type: SchemaTypes.String,
+      default: `User-${Date.now().toString()}`,
     },
     email: {
       type: SchemaTypes.String,
@@ -108,12 +116,12 @@ const User = new Schema<typeof method>(
       default: null,
     },
     role: {
-      type: SchemaTypes.ObjectId,
+      type: SchemaTypes.Number,
       ref: table.role,
     },
     status: {
       type: SchemaTypes.Number,
-      enum: [0, 1, 2, 3],
+      enum: user_status_list,
       default: 0,
     },
     device_token: {
@@ -121,14 +129,12 @@ const User = new Schema<typeof method>(
     },
   },
   {
-    timestamps: {
-      createdAt: 'created_at',
-      updatedAt: 'updated_at',
-    },
-    autoIndex: true,
+    ...config_default_collection,
   }
 )
 
 User.method(method)
+
+export type userType = Document & typeof method & typeof User
 
 export default User

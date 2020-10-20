@@ -1,4 +1,5 @@
 import { Schema, SchemaTypes } from 'mongoose'
+import { product_status_list } from '../../constants'
 import table from '../tableName'
 import { config_default_collection } from './utils'
 
@@ -30,7 +31,7 @@ const Product = new Schema<typeof method>(
     },
     status: {
       type: SchemaTypes.Number,
-      enum: [0, 1, 2, 3],
+      enum: product_status_list,
       default: 2,
     },
     react_count: {

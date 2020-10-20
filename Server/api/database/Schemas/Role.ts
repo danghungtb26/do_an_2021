@@ -61,4 +61,6 @@ const Role = new Schema<typeof method>(
 
 Role.method(method)
 
+export type RoleType = mongoose.Document & typeof method
+
 export default Role

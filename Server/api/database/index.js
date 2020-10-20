@@ -22,6 +22,7 @@ mongoose
   .connect(databaseName, options)
   .then(() => {
     console.log('connect successfully')
+    require('./Seeds')
   })
   .catch(err => {
     console.log('connect error', err)
