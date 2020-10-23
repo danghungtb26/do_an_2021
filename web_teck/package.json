@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production nodemon server.ts --exec babel-node --inspect --presets=@babel/env,@babel/typescript --extensions '.js,.jsx,.ts,.tsx'",
     "dev:ts": "nodemon server.ts --exec babel-node --inspect --presets=@babel/env,@babel/typescript --extensions '.js,.jsx,.ts,.tsx'",
     "lint": "eslint ./pages --ext .js,.jsx,.ts,.tsx --fix"
   },
