@@ -1,0 +1,126 @@
+table.tab1 {
+    border-collapse: collapse;
+    border-spacing: 1px;
+    caption-side: top;
+    empty-cells: show;
+    width: 100%;
+	font-family:Tahoma;
+	font-size:8pt;
+	background-color:#f7f7f7;
+	border:1px solid #CDCDCD;
+}
+table tbody.htext td {
+	padding:0;
+}
+table.tab1 caption {
+    background:5px center #DDE3EC url('../images/list.png')  no-repeat;
+    font: bold 13px / 27px Arial, Verdana, sans-serif;
+    text-align: left;
+    text-indent: 28px;
+	margin-bottom:1px;
+	border:1px solid #E0E0E0;
+	border-left:0; border-right:0;
+	margin-top:10px;
+}
+table.tab1 tbody.first {
+	background:#FBFBFB
+}
+table.tab1 tbody.second {
+    background:#F3F3E9
+}
+
+table.tab1 tfoot {
+    background:#EAF4F4;
+    font: bold 11px Arial, Verdana, sans-serif
+}
+table.tab1 tr {
+	border-top: 1px solid #DFDFDF;
+}
+table.tab1 td {
+	padding:3px 18px 2px 10px;
+	border-left: 1px solid #DFDFDF;
+	box-shadow: 0 1px 0px #fff inset; 
+	-webkit-box-shadow: 0 1px 0px #fff inset; 
+	-moz-box-shadow: 0 1px 0px #fff inset;
+	color:#909090;
+	text-shadow:0 1px 0 #FFFFFF;
+}
+table.tab1 td:first-child {
+	border-left: 0 none;
+}
+table.tab1 td input {
+	padding:3px;
+}
+
+table.tab1 td select {
+    border: 1px solid #CCCCCC;
+    font-size: 11px;
+    height: 23px;
+    padding: 1px;
+    text-transform: none;
+}
+
+table.tab1 thead {
+	background: #f8f8f8;
+	background: -moz-linear-gradient(top,  #f8f8f8 0%, #e8e8e8 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f8f8f8), color-stop(100%,#e8e8e8));
+	background: -webkit-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+	background: -o-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+	background: -ms-linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+	background: linear-gradient(top,  #f8f8f8 0%,#e8e8e8 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8f8f8', endColorstr='#e8e8e8',GradientType=0 );
+    font: bold 11px / 18px Arial, Verdana, sans-serif;
+    white-space: nowrap;
+	border-bottom:1px solid #CDCDCD;
+	box-shadow: 0 1px 0 #fff; 
+	-webkit-box-shadow: 0 1px 0 #fff; 
+	-moz-box-shadow: 0 1px 0 #fff; 
+	text-shadow: 0 1px #fff; 
+	-webkit-border-top-right-radius: 3px; 
+	-webkit-border-top-left-radius: 3px; 
+	-moz-border-radius-topright: 3px; 
+	-moz-border-radius-topleft: 3px;
+	color:#636363;
+}
+table.tab1 thead td {
+	padding:8px 14px 7px;
+}
+
+	table.tab1 tbody {
+		background: #f7f7f7
+	}
+	table.tab1 tbody.second {
+		background: #eee
+	}
+	table.tab1 td a, table.tab1 th a {
+		color: #333;
+		text-decoration: underline
+	}
+	table.tab1 th {
+		background: #ccc;
+		font-weight: normal;
+		text-align: left
+	}
+
+	table.tab1 th.head1 {
+		text-align: center;
+		white-space: nowrap;
+		width: 35px
+	}
+	table.tab1 td.col1 {
+		font-size: 8px;
+		text-align: center;
+		vertical-align: bottom;
+		width: 35px
+	}
+	table.tab1 td.col2 {
+		font-size: 8px;
+		width: 300px
+	}
+	table.tab1 tr.row1 {
+		text-align: center;
+		width: 35px
+	}
+	table.tab1 td.align_r {
+		text-align: right
+	}
