@@ -1,23 +1,22 @@
 import mongoose, { Document } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import moment from 'moment'
-import table from '../tableName'
-import { user_status_list } from '../../constants'
+import { user_status_list, roles_list } from '../../constants'
 import { config_default_collection } from './utils'
 
 const { Schema, SchemaTypes } = mongoose
-
+export type userInfoType = {
+  id: string | number
+  name: string
+  introduction: string
+  email: string
+  phone: string
+  role: string
+  created_at: string
+  updated_at: string
+}
 const method = {
-  getJson: function getJson(): {
-    id: string | number
-    name: string
-    introduction: string
-    email: string
-    phone: string
-    role: number
-    created_at: string
-    updated_at: string
-  } {
+  getJson: function getJson(): userInfoType {
     return {
       id: this._id,
       name: this.name,
@@ -35,7 +34,7 @@ const method = {
   getName: function getName(): string {
     return this.name
   },
-  getRole: function getRole(): number {
+  getRole: function getRole(): string {
     return this.role
   },
   isAdmin: function isAdmin(): boolean {
@@ -115,9 +114,13 @@ const User = new Schema<typeof method>(
       type: SchemaTypes.String,
       default: null,
     },
-    role: {
+    product_count: {
       type: SchemaTypes.Number,
-      ref: table.role,
+      default: 0,
+    },
+    role: {
+      type: SchemaTypes.String,
+      enum: roles_list,
     },
     status: {
       type: SchemaTypes.Number,

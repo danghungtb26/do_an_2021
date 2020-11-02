@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { databaseName } from './config'
 
 mongoose.Promise = global.Promise
-
+mongoose.set('useFindAndModify', false)
 const options = {
   // db: {
   //   native_parser: true,
