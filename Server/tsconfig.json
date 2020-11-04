@@ -2,15 +2,18 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./build",
+    "outDir": "./lib/typescript",
     "composite": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
     "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "lib": ["esnext", "dom"],
+    "jsx": "preserve",
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -24,6 +27,8 @@
     "strict": true,
     "target": "esnext",
     "noEmit": true,
+    "isolatedModules": true,
+    "allowJs": true
   },
   "exclude": [
     "node_modules", "babel.config.js", "metro.config.js", "jest.config.js",  "lib"
