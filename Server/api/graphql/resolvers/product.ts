@@ -50,7 +50,7 @@ const addProduct = async (product, auth) => {
 
 const mutation = {
   /**
-   * func api để thêm sản phẩm vào database
+   * func api để thêm sản phẩm vào database
    * @param _
    * @param param1
    */
@@ -63,14 +63,20 @@ const mutation = {
    * @param _
    * @param param1
    */
-  editProduct(_, { product }, { auth }) {},
+  editProduct(_, { product }, { auth }) {
+    console.log('editProduct -> auth', auth)
+    console.log(product)
+  },
 
   /**
    * func xoá sản phẩm
    * @param _
    * @param param1
    */
-  deleteProduct(_, { id }, { auth }) {},
+  deleteProduct(_, { id }, { auth }) {
+    console.log('editProduct -> auth', auth)
+    console.log(id)
+  },
 
   update_view_product: (_, { id }) => {
     return ProductModel.findByIdAndUpdate(

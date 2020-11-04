@@ -3,11 +3,9 @@ import queries from './queries'
 import { UserResolvers, ProductResolvers } from './resolvers'
 import typeDefs from './typedefs'
 
-const { ApolloServer, gql, PubSub } = require('apollo-server-express')
+const { ApolloServer } = require('apollo-server-express')
 
 // const pubsub = new PubSub()
-
-const ADD_DDD = 'ADD_DDD'
 
 // const typeDefs = gql`
 //   type Subscription {
