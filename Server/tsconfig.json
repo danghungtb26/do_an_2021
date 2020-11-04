@@ -23,7 +23,9 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "esnext",
-    "noEmit": true
+    "noEmit": true,
+    "isolatedModules": true,
+    "allowJs": true
   },
   "exclude": [
     "node_modules", "babel.config.js", "metro.config.js", "jest.config.js",  "lib"
