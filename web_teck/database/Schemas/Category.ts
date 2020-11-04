@@ -18,10 +18,10 @@ const method = {
 const Category = new Schema<typeof method>(
   {
     name: {
-      type: SchemaTypes.String,
+      type: String,
       required: true,
     },
-    description: SchemaTypes.String,
+    description: String,
     number_of_product: SchemaTypes.Number,
     parent_category: {
       type: SchemaTypes.ObjectId,

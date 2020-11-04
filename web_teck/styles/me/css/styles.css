@@ -1,0 +1,81 @@
+.txt-profile-name {
+    font-size: 20px;
+    color: slategray;
+    font-weight: 800;
+}
+.txt-profile-job {
+    margin-top: 6px;
+    font-size: 16px;
+    color: steelblue;
+    font-style: italic;
+}
+.txt-profile-rank {
+    font-style: 16;
+    font-style: italic;
+}
+.btn-edit-profile {
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: white;
+    background-color: tomato;
+    text-align: center;
+    border-radius: 4px;
+}
+.txt-profile-menu {
+    margin-top: 12px;
+    font-size: 12px;
+    color: blue;
+    cursor: pointer;
+}
+
+.txt-label-info-introduction {
+    font-size: 20px;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 12px;
+}
+.txt-label-info {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1);
+}
+
+.txt-value-info {
+    font-size: 14px;
+    color: darkblue;
+}
+.view-info {
+    margin-top: 8px;
+}
+
+.table-cell-custom {
+    font-weight: 300;
+}
+
+.txt-title-header-product-list {
+    font-size: 20px;
+    font-weight: 600;
+    color: darkblue;
+}
+
+.editor-custom-sort-description-classname {
+    height: 250px;
+    border: rgba(0, 0, 0, 1) 1px;
+    border-width: 1px;
+}
+
+.editor-custom-description-classname {
+    height: 400px;
+    border: rgba(0, 0, 0, 1) 1px;
+    border-width: 1px;
+}
+.txt-title-key-product-new {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 1);
+    padding-bottom: 4px;
+
+}
+.field-input-product-new {
+    margin-top: 24px;
+}

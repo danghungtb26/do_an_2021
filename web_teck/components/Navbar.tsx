@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 
 const Navbar = (props) => {
-  const { a } = props || {}
+  const { authen } = props || {}
   return (
     <header className="header sticky">
       <div className="container">
@@ -30,40 +30,42 @@ const Navbar = (props) => {
                         </li>
 
                         <li>
-                          <a href="/duannew" title="Dự Án">
+                          <Link href="/duannew" title="Dự Án">
                             Dự Án
-                          </a>
+                          </Link>
                         </li>
 
                         <li>
-                          <a href="/catalog" title="Dự Án Tiềm Năng">
+                          <Link href="/catalog" title="Dự Án Tiềm Năng">
                             Dự Án Tiềm Năng
-                          </a>
+                          </Link>
                         </li>
 
                         <li>
-                          <a href="/new" title="Tin tức - Sự kiện">
+                          <Link href="/new" title="Tin tức - Sự kiện">
                             Tin tức - Sự kiện
-                          </a>
+                          </Link>
                         </li>
 
                         <li>
-                          <a href="/contact" title="Liên hệ">
+                          <Link href="/contact" title="Liên hệ">
                             Liên hệ
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </nav>
                   </div>
                 </div>
               </div>
-              <div className="col-lg-2 col-md-12 col-sm-12 col-xs-12 header__left--menu">
-                <div className="account">
-                  <a href="#a" className="login" title="Đăng nhập">
-                    Đăng nhập
-                  </a>
+              {!authen ? (
+                <div className="col-lg-2 col-md-12 col-sm-12 col-xs-12 header__left--menu">
+                  <div className="account">
+                    <a href="#a" className="login" title="Đăng nhập">
+                      Đăng nhập
+                    </a>
+                  </div>
                 </div>
-              </div>
+              ) : null}
             </div>
           </div>
         </div>

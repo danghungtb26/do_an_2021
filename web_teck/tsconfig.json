@@ -26,8 +26,8 @@
     "strict": true,
     "target": "esnext",
     "noEmit": true,
-    "allowJs": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "allowJs": true
   },
   "exclude": [
     "node_modules",

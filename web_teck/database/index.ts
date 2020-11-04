@@ -24,6 +24,8 @@ mongoose
     console.log('connect successfully')
     require('./Seeds')
   })
-  .catch(err => {
+  .catch((err) => {
     console.log('connect error', err)
   })
+
+export default mongoose

@@ -1,21 +1,20 @@
-import mongoose, { Types } from 'mongoose'
-import { SeedSchema, UserSchema, userType } from '../Schemas'
+import mongoose from 'mongoose'
+import models from '../Models'
+import { SeedSchema } from '../Schemas'
 import table from '../tableName'
-
-const UserModel = mongoose.model<userType>(table.user, UserSchema)
-const SeedModel = mongoose.model(table.seed, SeedSchema)
 
 const seed_1603425419322: () => void = () => {
   const seed = 1603425419322
 
+  const SeedModel = mongoose.model(table.seed, SeedSchema)
   SeedModel.findOne({ body: seed }).then((res) => {
     if (!res) {
       const newSeed = new SeedModel({ body: seed })
       newSeed.save()
-      const newUser = new UserModel({
+      const newUser = new models.UserModel({
         email: 'admin@gmail.com',
         password: 'admin',
-        role: new mongoose.Types.ObjectId('5f92514f5769c320e3bcf508'),
+        role: 'admin',
       })
       newUser.generate().then(() => {
         newUser.save()
