@@ -3,7 +3,7 @@ import router from 'next/router'
 import { AUTHEN_TOKEN_WEB_TECK } from '../constants'
 
 // func lấy ra token trong cookie
-export const getInitialTokenProps = async (ctx) => {
+export const getInitialTokenProps = async (ctx: any) => {
   const cookies2 = cookies(ctx)
 
   const token = cookies2[AUTHEN_TOKEN_WEB_TECK]
@@ -11,7 +11,7 @@ export const getInitialTokenProps = async (ctx) => {
   return { token }
 }
 
-export const checkTokenInInitial = async (ctx) => {
+export const checkTokenInInitial = async (ctx: any) => {
   const cookies2 = cookies(ctx)
 
   const token = cookies2[AUTHEN_TOKEN_WEB_TECK]
