@@ -2,6 +2,7 @@ import { ValidationError } from 'apollo-server-express'
 import { getUser, getUserById, runWithSession } from '../../commons'
 import { roles } from '../../constants'
 import { ProductModel, UserModel } from '../../database/Models'
+import { userType } from '../../database/Schemas'
 
 const addProduct = async (product, auth) => {
   const user = await getUser(auth).then(r => {
@@ -37,8 +38,8 @@ const addProduct = async (product, auth) => {
           success().then(async () => {
             resolve({
               ...products[0]?.getJson(),
-              author: await getUserById(products[0]?.getAuthor()),
-              owner: await getUserById(products[0]?.getOwner()),
+              author: await getUserById(products[0]?.getAuthor() as string),
+              owner: await getUserById(products[0]?.getOwner() as string),
             })
           })
         })
@@ -70,6 +71,27 @@ const mutation = {
    * @param param1
    */
   deleteProduct(_, { id }, { auth }) {},
+
+  update_view_product: (_, { id }) => {
+    return ProductModel.findByIdAndUpdate(
+      id,
+      {
+        $inc: {
+          view_count: 1,
+        },
+      },
+      {
+        new: true,
+      }
+    )
+      .populate('author')
+      .populate('owner')
+      .then(r => ({
+        ...r.getJson(),
+        author: (r.getAuthor() as userType).getJson(),
+        owner: (r.getOwner() as userType).getJson(),
+      }))
+  },
 }
 
 export default mutation

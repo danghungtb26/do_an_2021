@@ -43,6 +43,5 @@ export const getUser: (auth: string) => Promise<{ id: string | number }> = auth 
  * func tim user theo id
  */
 export const getUserById: (id: string) => Promise<userType> = id => {
-  console.log('id', id)
   return UserModel.findById(id).then(r => r)
 }

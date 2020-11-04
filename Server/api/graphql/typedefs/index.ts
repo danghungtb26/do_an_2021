@@ -22,8 +22,22 @@ const typeDefs = gql`
     status: Int!
     owner: User
     author: User
-    react_count: Int!
-    comment_count: Int!
+    react_count: Int
+    comment_count: Int
+    view_count: Int
+    updated_at: String
+    created_at: String
+  }
+
+  type Page {
+    count: Int
+    current_page: Int
+    total_page: Int
+  }
+
+  type ProductList {
+    data: [Product]!
+    paging: Page!
   }
 
   input RegisterUserInput {
@@ -47,8 +61,22 @@ const typeDefs = gql`
     description: String
   }
 
+  input SortProduct {
+    name: String
+    desc: Boolean
+  }
+
+  input QueryProductInput {
+    limit: Int
+    skip: Int
+    keyword: String
+    sort: [SortProduct]
+  }
+
   type Query {
     get_user_info: User!
+    get_product_list(query: QueryProductInput): ProductList
+    get_product_by_id(id: String): Product
   }
 
   type Mutation {
@@ -57,6 +85,7 @@ const typeDefs = gql`
     addProduct(product: AddProductInput!): Product
     editProduct(product: AddProductInput!): Product!
     deleteProduct(id: String!): String
+    update_view_product(id: String): Product
   }
 `
 
