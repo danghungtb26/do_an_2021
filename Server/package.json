@@ -95,9 +95,9 @@
     "webpack-stream": "^5.2.1"
   },
   "scripts": {
-    "server": "nodemon app.js --exec babel-node --inspect=9009 --presets=@babel/env,@babel/typescript --extensions '.js,.jsx,.ts,.tsx'",
+    "start": "nodemon app.js --exec babel-node --inspect=9009 --presets=@babel/env,@babel/typescript --extensions '.js,.jsx,.ts,.tsx'",
     "react": "webpack",
-    "start": "concurrently \"npm run react\" \"npm run sever\"",
+    "start:react": "concurrently \"npm run react\" \"npm run sever\"",
     "lint": "eslint ./api --ext .js,.jsx,.ts,.tsx --fix"
   }
 }

@@ -5,9 +5,6 @@ import bodyParser from 'body-parser'
 import './api/database'
 // import passport from 'passport'
 import cors from 'cors'
-import setup from './api/database/passport_config'
-// import routers from './api/routes'
-import image from './api/routes/image'
 import { hostApi } from './api/database/config'
 import setupSocket from './modules/chat/routes'
 import { setupGraphql, setuphttp } from './api/graphql/config'
@@ -42,7 +39,7 @@ app.get('/abc', (req, res) => {
 // setup(passport)
 
 // app.use('/api', routers)
-app.use('', image)
+// app.use('', image)
 
 // const list = []
 
@@ -83,7 +80,6 @@ app.use('', image)
 // })
 
 app.use((err, req, res, next) => {
-  console.log('This is the invalid field ->', err.field)
   res.header('Access-Control-Allow-Origin', '*')
   res.header(
     'Access-Control-Allow-Headers',

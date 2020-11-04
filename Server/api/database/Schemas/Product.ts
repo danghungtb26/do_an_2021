@@ -3,6 +3,7 @@ import moment from 'moment'
 import { product_status_list } from '../../constants'
 import table from '../tableName'
 import { config_default_collection } from './utils'
+import { userType } from './User'
 
 export type productInfoType = {
   id: string
@@ -12,6 +13,7 @@ export type productInfoType = {
   sort_description: string
   react_count: number
   comment_count: number
+  view_count: number
   status: number
   created_at: string
   updated_at: string
@@ -27,15 +29,16 @@ const method = {
       description: this.description,
       react_count: this.react_count,
       comment_count: this.comment_count,
+      view_count: this.view_count,
       status: this.status,
       created_at: moment(this.created_at).format(),
       updated_at: moment(this.updated_at).format(),
     }
   },
-  getAuthor: function getAuthor(): string {
+  getAuthor: function getAuthor(): string | userType {
     return this.author
   },
-  getOwner: function getOwner(): string {
+  getOwner: function getOwner(): string | userType {
     return this.owner
   },
 }
@@ -82,6 +85,11 @@ const Product = new Schema<typeof method>(
       default: 0,
       min: 0,
     },
+    article_count: {
+      type: SchemaTypes.Number,
+      default: 0,
+      min: 0,
+    },
     attachment: {
       type: SchemaTypes.Array,
     },
@@ -93,6 +101,11 @@ const Product = new Schema<typeof method>(
       type: SchemaTypes.ObjectId,
       ref: table.user,
     },
+    view_count: {
+      type: SchemaTypes.Number,
+      default: 0,
+      min: 0,
+    },
   },
   {
     ...config_default_collection,
@@ -101,6 +114,6 @@ const Product = new Schema<typeof method>(
 
 Product.method(method)
 
-export type productType = Document & typeof method
+export type productType = Document & typeof method & { author: string | userType }
 
 export default Product

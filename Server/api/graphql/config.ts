@@ -1,5 +1,5 @@
 import { hostApi } from '../database/config'
-import { UserQueries } from './queries'
+import queries from './queries'
 import { UserResolvers, ProductResolvers } from './resolvers'
 import typeDefs from './typedefs'
 
@@ -35,7 +35,7 @@ const resolvers = {
   //   },
   // },
   Query: {
-    ...UserQueries,
+    ...queries,
   },
   Mutation: {
     ...UserResolvers,
@@ -48,7 +48,6 @@ const server = new ApolloServer({
   resolvers,
   tracing: true,
   context: ({ req }) => {
-    console.log('req', req)
     const auth = req.headers.authorization || ''
     return {
       auth,
