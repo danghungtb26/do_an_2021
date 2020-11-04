@@ -10,9 +10,9 @@ export const database_name = 'do_an_2021'
 
 export const password = 'hung15150408'
 
-export const databaseName = `mongodb+srv://hungdv:${password}@cluster0.zjojq.mongodb.net/${database_name}?retryWrites=true&w=majority&replicaSet=rs`
+// export const databaseName = `mongodb+srv://Hungdv:${password}@cluster0.zjojq.mongodb.net/${database_name}?retryWrites=true&w=majority&replicaSet=rs`
 
-// export const databaseName = `mongodb://${baseUrl}:${hostDatabase}/${database_name}?replicaSet=rs`
+export const databaseName = `mongodb://${baseUrl}:${hostDatabase}/${database_name}?replicaSet=rs`
 // export const databaseName = `mongodb://${baseUrl}:${hostDatabase}/${database_name}`
 
 export const username = 'admin'

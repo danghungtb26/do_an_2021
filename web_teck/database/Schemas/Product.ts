@@ -1,4 +1,4 @@
-import { Schema, SchemaTypes } from 'mongoose'
+import { Schema, SchemaTypes, Document } from 'mongoose'
 import { product_status_list } from '../../constants'
 import table from '../tableName'
 import { config_default_collection } from './utils'
@@ -60,6 +60,8 @@ const Product = new Schema<typeof method>(
     ...config_default_collection,
   }
 )
+
+export type productType = Document & typeof method
 
 Product.method(method)
 

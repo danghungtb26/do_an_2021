@@ -14,10 +14,12 @@ import '../styles/css/owl.carousel.css'
 import '../styles/css/owl.theme.css'
 import '../styles/css/owl.transitions.css'
 
-import '../styles/admin/css/patternfly.css'
-import '../styles/admin/css/patternfly-additions.css'
-import '../styles/admin/css/zocial.css'
-import '../styles/admin/css/login.css'
+import '../styles/admin/css/styles.css'
+import '../styles/me/css/styles.css'
+import { AUTHEN_TOKEN_WEB_TECK } from '../constants'
+// import '../styles/admin/css/patternfly-additions.css'
+// import '../styles/admin/css/zocial.css'
+// import '../styles/admin/css/login.css'
 
 // @ts-ignore
 function MyApp({ Component, pageProps }) {
@@ -26,3 +28,10 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp
+
+MyApp.getServerSideProps = async ({ req, res }) => {
+  const authen = await localStorage.getItem(AUTHEN_TOKEN_WEB_TECK)
+  return {
+    authen,
+  }
+}

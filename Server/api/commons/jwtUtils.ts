@@ -1,6 +1,8 @@
 import { AuthenticationError } from 'apollo-server-express'
 import jwt from 'jsonwebtoken'
 import { secretkey } from '../database/config'
+import { UserModel } from '../database/Models'
+import { userType } from '../database/Schemas'
 
 /**
  * func nay dùng để sinh ra authen_token cho user khi đăng ký hoặc đăng nhập
@@ -35,4 +37,12 @@ export const getUser: (auth: string) => Promise<{ id: string | number }> = auth 
       resolve({ id: decoded.id })
     })
   })
+}
+
+/**
+ * func tim user theo id
+ */
+export const getUserById: (id: string) => Promise<userType> = id => {
+  console.log('id', id)
+  return UserModel.findById(id).then(r => r)
 }

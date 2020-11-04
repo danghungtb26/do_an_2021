@@ -1,7 +1,6 @@
 import mongoose, { Document } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import moment from 'moment'
-import table from '../tableName'
 import { user_status_list } from '../../constants'
 import { config_default_collection } from './utils'
 
@@ -116,8 +115,8 @@ const User = new Schema<typeof method>(
       default: null,
     },
     role: {
-      type: SchemaTypes.ObjectId,
-      ref: table.role,
+      type: SchemaTypes.String,
+      enum: ['user', 'admin'],
     },
     status: {
       type: SchemaTypes.Number,

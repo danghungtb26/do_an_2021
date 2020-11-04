@@ -6,6 +6,6 @@
       "api",
       "yarn.lock"
     ],
-    "exec": "babel-node --extensions \".ts\" app.js",
+    "exec": "babel-node --inspect=9099 --extensions \".ts\" app.js",
     "ext": "ts"
   }

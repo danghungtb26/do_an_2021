@@ -1,11 +1,19 @@
 import React from 'react'
+import cookies from 'next-cookies'
 
 import { Breadcrumb, Footer, Navbar, Sidebar } from '../components'
+import { AUTHEN_TOKEN_WEB_TECK } from '../constants'
+import { getInitialTokenProps } from '../commons'
 
-export default function Home({ search }) {
+export default function Home(props) {
+  React.useEffect(() => {
+    return () => {
+      console.log('unmout')
+    }
+  })
   return (
     <>
-      <Navbar />
+      <Navbar {...props} />
       <Breadcrumb />
 
       <div className="site-section">
@@ -92,6 +100,10 @@ export default function Home({ search }) {
 }
 
 Home.getInitialProps = async (ctx) => {
-  console.log('object')
-  return { search: 'haha' }
+  const { token } = await getInitialTokenProps(ctx)
+  console.log('Home.getInitialProps -> cookies2', token)
+
+  // console.log('object')
+
+  return { search: 'haha', authen: token }
 }
