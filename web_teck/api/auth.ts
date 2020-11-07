@@ -4,12 +4,12 @@
 
 import { gql } from '@apollo/client'
 import client from './client'
-import { IPayloadUser, IResponseApi } from './types'
+import type { IPayloadUser, IResponseApi } from './types'
 
-export const signIn: (param: { email; password }) => Promise<IResponseApi<IPayloadUser>> = async ({
-  email,
-  password,
-}) => {
+export const signIn: (param: {
+  email: string
+  password: string
+}) => Promise<IResponseApi<IPayloadUser>> = async ({ email, password }) => {
   try {
     const query = gql`
       mutation login($email: String!, $password: String!) {
@@ -31,7 +31,7 @@ export const signIn: (param: { email; password }) => Promise<IResponseApi<IPaylo
     })
     return {
       success: true,
-      data: result.data.login,
+      data: result.data?.login,
     }
   } catch (error) {
     return {
@@ -46,9 +46,9 @@ export const signIn: (param: { email; password }) => Promise<IResponseApi<IPaylo
  * @param param0
  */
 export const signUp: (param: {
-  email
-  password
-  confirm_password
+  email: string
+  password: string
+  confirm_password: string
 }) => Promise<IResponseApi<IPayloadUser>> = async ({ email, password, confirm_password }) => {
   try {
     const query = gql`
@@ -74,7 +74,7 @@ export const signUp: (param: {
     })
     return {
       success: true,
-      data: result.data.register,
+      data: result.data?.register,
     }
   } catch (error) {
     return {

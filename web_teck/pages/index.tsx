@@ -1,8 +1,6 @@
 import React from 'react'
-import cookies from 'next-cookies'
 
 import { Breadcrumb, Footer, Navbar, Sidebar } from '../components'
-import { AUTHEN_TOKEN_WEB_TECK } from '../constants'
 import { getInitialTokenProps } from '../commons'
 
 export default function Home(props) {
@@ -99,11 +97,12 @@ export default function Home(props) {
   )
 }
 
-Home.getInitialProps = async (ctx) => {
-  const { token } = await getInitialTokenProps(ctx)
+Home.getInitialProps = async (ctx: any) => {
+  const { token, user } = await getInitialTokenProps(ctx)
+  console.log('user', user)
   console.log('Home.getInitialProps -> cookies2', token)
 
   // console.log('object')
 
-  return { search: 'haha', authen: token }
+  return { authen: token, user }
 }

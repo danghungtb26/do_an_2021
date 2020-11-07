@@ -16,10 +16,13 @@ export interface IPayloadUser {
   id?: string | number
   token?: string
   name?: string
+  avatar?: string
   email?: string
   phone?: string
   role?: string
   introduction?: string
+  product_count?: number
+  article_count?: string
   updated_at?: string
   created_at?: string
   status?: string | number

@@ -79,3 +79,25 @@
 .field-input-product-new {
     margin-top: 24px;
 }
+.sticky {
+    position: sticky;
+    background-color: white;
+  }
+
+.sign-in-new {
+    cursor: pointer;
+}
+.view-user-nav-bar {
+    justify-content: center;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+.three-dot {
+    display: inline-block;
+    width: 80px;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
