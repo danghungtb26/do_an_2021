@@ -1,7 +1,9 @@
 import { Button, Container, Grid, TextField } from '@material-ui/core'
+import { Router } from 'next/router'
 import React from 'react'
+import { roles } from '../../../constants'
 import { addProduct } from '../../../api'
-import { checkTokenInInitial } from '../../../commons'
+import { checkTokenInInitial, getInitialTokenProps } from '../../../commons'
 
 import { Editor, Footer, Navbar } from '../../../components'
 
@@ -17,10 +19,18 @@ interface INewProductPageState {
 }
 
 class NewProductPage extends React.Component<INewProductPageProps, INewProductPageState> {
-  static getInitialProps = async (ctx) => {
-    const token = await checkTokenInInitial(ctx)
+  static getInitialProps = async (ctx: any) => {
+    await checkTokenInInitial(ctx)
+    const { user } = await getInitialTokenProps(ctx)
+    if (!user?.id || user?.role !== roles.user)
+      if (ctx.res) {
+        ctx.res.writeHead(302, { Location: '/login' })
+        ctx.res.end()
+      } else {
+        Router.replace('/login')
+      }
 
-    return { authen: token }
+    return { user }
   }
 
   constructor(props: INewProductPageProps) {

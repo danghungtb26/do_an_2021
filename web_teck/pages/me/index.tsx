@@ -1,17 +1,24 @@
 import { Container, Grid } from '@material-ui/core'
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import Link from 'next/link'
+import { Router } from 'next/router'
 import React from 'react'
-import { checkTokenInInitial } from '../../commons'
+import moment from 'moment'
+import type { IPayloadUser } from 'api/types'
+import { format_date, roles } from '../../constants'
+import { checkTokenInInitial, getInitialTokenProps } from '../../commons'
 import { Footer, Navbar, Sidebar } from '../../components'
 
-interface IMePageProps {}
+interface IMePageProps {
+  user?: IPayloadUser
+}
 
 /**
  * page chứa thông tin của user
  * bao gồm các banner khác và thông tin cơ bản của user
  */
 const MePage: NextPage<IMePageProps> = (props) => {
+  const { user } = props
   return (
     <>
       <Navbar {...props} />
@@ -29,7 +36,7 @@ const MePage: NextPage<IMePageProps> = (props) => {
                   <Grid item md={9} style={{ padding: '24px' }}>
                     <Grid container style={{ justifyContent: 'space-between' }}>
                       <Grid item md={9}>
-                        <div className="txt-profile-name">Kshiti Ghelani</div>
+                        <div className="txt-profile-name">{user?.name}</div>
                         <div className="txt-profile-job">Kỹ sư</div>
                         <div className="txt-profile-rank">Rank: Pro</div>
                         {/* <Grid></Grid> */}
@@ -43,10 +50,10 @@ const MePage: NextPage<IMePageProps> = (props) => {
                 <Grid container style={{ marginTop: '24px', marginLeft: '24px' }}>
                   <Grid item md={3}>
                     <Link href="/me/product">
-                      <div className="txt-profile-menu">Sản phẩm (8)</div>
+                      <div className="txt-profile-menu">Sản phẩm ({user?.product_count})</div>
                     </Link>
                     <Link href="/me/article">
-                      <div className="txt-profile-menu">Bài viết (10)</div>
+                      <div className="txt-profile-menu">Bài viết ({user?.article_count})</div>
                     </Link>
                   </Grid>
                   <Grid item md={9}>
@@ -57,7 +64,7 @@ const MePage: NextPage<IMePageProps> = (props) => {
                           <div className="txt-label-info">Tên:</div>
                         </Grid>
                         <Grid item md={8}>
-                          <div className="txt-value-info">Kshiti Ghelani</div>
+                          <div className="txt-value-info">{user?.name}</div>
                         </Grid>
                       </Grid>
                       <Grid container className="view-info">
@@ -65,7 +72,9 @@ const MePage: NextPage<IMePageProps> = (props) => {
                           <div className="txt-label-info">Ngày sinh:</div>
                         </Grid>
                         <Grid item md={8}>
-                          <div className="txt-value-info">Kshiti Ghelani</div>
+                          <div className="txt-value-info">
+                            {moment().format(format_date.DD_MM_YYYY)}
+                          </div>
                         </Grid>
                       </Grid>
                       <Grid container className="view-info">
@@ -73,7 +82,7 @@ const MePage: NextPage<IMePageProps> = (props) => {
                           <div className="txt-label-info">Số điện thoại:</div>
                         </Grid>
                         <Grid item md={8}>
-                          <div className="txt-value-info">Kshiti Ghelani</div>
+                          <div className="txt-value-info">{user?.phone ?? ''}</div>
                         </Grid>
                       </Grid>
                       <Grid container className="view-info">
@@ -81,7 +90,7 @@ const MePage: NextPage<IMePageProps> = (props) => {
                           <div className="txt-label-info">Email:</div>
                         </Grid>
                         <Grid item md={8}>
-                          <div className="txt-value-info">Kshiti Ghelani</div>
+                          <div className="txt-value-info">{user?.email}</div>
                         </Grid>
                       </Grid>
                       <Grid container className="view-info">
@@ -89,7 +98,7 @@ const MePage: NextPage<IMePageProps> = (props) => {
                           <div className="txt-label-info">Mô tả:</div>
                         </Grid>
                         <Grid item md={8}>
-                          <div className="txt-value-info">Kshiti Ghelani</div>
+                          <div className="txt-value-info">{user?.introduction}</div>
                         </Grid>
                       </Grid>
                     </div>
@@ -108,8 +117,16 @@ const MePage: NextPage<IMePageProps> = (props) => {
 
 MePage.getInitialProps = async (ctx) => {
   await checkTokenInInitial(ctx)
+  const { user } = await getInitialTokenProps(ctx)
+  if (!user?.id || user?.role !== roles.user)
+    if (ctx.res) {
+      ctx.res.writeHead(302, { Location: '/login' })
+      ctx.res.end()
+    } else {
+      Router.replace('/login')
+    }
 
-  return {}
+  return { user }
 }
 
 export default MePage

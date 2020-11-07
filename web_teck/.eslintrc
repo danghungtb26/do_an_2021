@@ -86,7 +86,8 @@
       "args": "after-used",
       "ignoreRestSiblings": true
     }],
-    "import/no-unresolved": "error"
+    "import/no-unresolved": "error",
+    "react/no-danger": 0
   },
   "env": {
     "jest": true

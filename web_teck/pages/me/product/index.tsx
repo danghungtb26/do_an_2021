@@ -1,10 +1,27 @@
 import { Container, Grid } from '@material-ui/core'
+import { checkTokenInInitial, getInitialTokenProps } from 'commons'
+import { Router } from 'next/router'
 import React from 'react'
+import { roles } from '../../../constants'
 import { ButtonLink, Footer, Navbar, Table } from '../../../components'
 
 interface IProductPage {}
 
 class ProductPage extends React.Component<IProductPage> {
+  static getInitialProps = async (ctx: any) => {
+    await checkTokenInInitial(ctx)
+    const { user } = await getInitialTokenProps(ctx)
+    if (!user?.id || user?.role !== roles.user)
+      if (ctx.res) {
+        ctx.res.writeHead(302, { Location: '/login' })
+        ctx.res.end()
+      } else {
+        Router.replace('/login')
+      }
+
+    return { user }
+  }
+
   columns: Array<{
     id: string
     label: string

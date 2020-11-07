@@ -1,9 +1,10 @@
-import { Button, Input } from '@material-ui/core'
+import { Button, Grid, Input } from '@material-ui/core'
 import cookies from 'next-cookies'
 import React from 'react'
 import Router from 'next/router'
-import { signIn } from '../../api/auth'
-import { IPayloadUser } from '../../api/types'
+import { getInitialTokenProps, getInitialTokenPropsAndCheck } from 'commons'
+import { signIn, signUp } from '../../api/auth'
+import type { IPayloadUser } from '../../api/types'
 import { AUTHEN_TOKEN_WEB_TECK } from '../../constants'
 // import { signUpMongo } from '../../database/Controllers'
 
@@ -52,56 +53,90 @@ const Login = () => {
           Router.replace('/')
         }
       })
-      // signUpMongo({
-      //   email: state.email,
-      //   password: state.password,
-      //   confirm_password: state.confirm_password,
-      // })
+    } else {
+      signUp({
+        email: state.email,
+        password: state.password,
+        confirm_password: state.confirm_password,
+      }).then((r) => {
+        if (r.success) {
+          document.cookie = `${AUTHEN_TOKEN_WEB_TECK}=${(r.data as IPayloadUser).token}`
+          Router.replace('/')
+        }
+      })
     }
   }
 
   return (
-    <div className="view-container-login">
-      <div className="view-content-login">
-        <div className="view-icon-login">
-          <div className="icon-login" />
-        </div>
-        <div className="view-label-login">LOG IN</div>
-
-        <div className="view-from-login">
-          <div>
-            <Input value={state.email} onChange={onChangeText} name="email" placeholder="email" />
-          </div>
-          <div>
-            <Input
-              value={state.password}
+    <div className="limiter">
+      <div className="container-login100">
+        <div className="wrap-login100">
+          {/* <form className="login100-form validate-form"> */}
+          <span className="login100-form-title p-b-26">Welcome</span>
+          <span className="login100-form-title p-b-48">
+            <i className="zmdi zmdi-font" />
+          </span>
+          <div className="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+            <input
+              className="input100"
+              type="text"
+              name="email"
+              value={state.email}
               onChange={onChangeText}
-              name="password"
-              security="password"
-              placeholder="password"
             />
+            <span className="focus-input100" data-placeholder="Email" />
           </div>
-
-          {state.is_sign_up ? (
-            <div>
-              <Input
+          <div className="wrap-input100 validate-input" data-validate="Enter password">
+            <span className="btn-show-pass">
+              <i className="zmdi zmdi-eye" />
+            </span>
+            <input
+              className="input100"
+              type="password"
+              value={state.password}
+              name="password"
+              onChange={onChangeText}
+            />
+            <span className="focus-input100" data-placeholder="Mật khẩu" />
+          </div>
+          {!state.is_sign_up ? null : (
+            <div className="wrap-input100 validate-input" data-validate="Enter confirm password">
+              <span className="btn-show-pass">
+                <i className="zmdi zmdi-eye" />
+              </span>
+              <input
+                className="input100"
+                type="password"
                 value={state.confirm_password}
-                onChange={onChangeText}
                 name="confirm_password"
-                security="password"
-                placeholder="confirm_password"
+                onChange={onChangeText}
+              />
+              <span
+                className="focus-input100"
+                data-placeholder="Xác nhận mật khẩu"
+                onChange={onChangeText}
               />
             </div>
-          ) : null}
-
-          <Button onClick={onSubmit}>{state.is_sign_up ? 'SIGN UP' : 'SIGN IN'}</Button>
-
-          <div>
-            Bạn chưa có tài khoản?{' '}
-            <div onClick={toggle_sign} tabIndex={-1} aria-hidden>
-              Đăng ký ngay
+          )}
+          <div className="container-login100-form-btn">
+            <div className="wrap-login100-form-btn">
+              <div className="login100-form-bgbtn" />
+              <button onClick={onSubmit} type="submit" className="login100-form-btn">
+                Đăng nhập
+              </button>
             </div>
           </div>
+          <Grid
+            container
+            className="text-center p-t-115"
+            alignItems="center"
+            style={{ width: '100%' }}>
+            <span className="txt1">Chưa có tài khoản? </span>
+            <div onClick={toggle_sign} tabIndex={-1} aria-hidden className="sign-in-new">
+              Đăng ký ngay
+            </div>
+          </Grid>
+          {/* </form> */}
         </div>
       </div>
     </div>
@@ -110,17 +145,8 @@ const Login = () => {
 
 export default Login
 
-Login.getInitialProps = async (ctx) => {
-  const cookies2 = cookies(ctx)
+Login.getInitialProps = async (ctx: any) => {
+  const { user } = getInitialTokenPropsAndCheck(ctx)
 
-  const token = cookies2[AUTHEN_TOKEN_WEB_TECK]
-  if (token)
-    if (ctx.res) {
-      ctx.res.writeHead(302, { Location: '/' })
-      ctx.res.end()
-    } else {
-      Router.replace('/')
-    }
-
-  return { search: 'haha', authen: token }
+  return { user }
 }

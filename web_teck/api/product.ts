@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client'
 import client from './client'
-import { IPayloadProduct, IResponseApi } from './types'
+import type { IPayloadProduct, IResponseApi } from './types'
 
 /**
  * func lấy ra danh sách product
@@ -15,11 +15,11 @@ import { IPayloadProduct, IResponseApi } from './types'
  * @returns IResponseApi<IPayloadProduct>
  */
 export const getProductList: (props: {
-  authen: string
-  limit: number
-  skip: number
-  sort: Array<{ name: string; desc: boolean }>
-  keyword: string
+  authen?: string
+  limit?: number
+  skip?: number
+  sort?: Array<{ name: string; desc: boolean }>
+  keyword?: string
 }) => Promise<IResponseApi<IPayloadProduct>> = async (props) => {
   try {
     const queryString = gql`
@@ -47,14 +47,22 @@ export const getProductList: (props: {
       }
     `
     const { limit, skip, keyword, sort } = props
-    const result = await client.query<{ get_product_list: IPayloadProduct[] }>({
+    const result = await client.query<{
+      get_product_list: {
+        data: IPayloadProduct[]
+        paging: {
+          count?: number
+        }
+      }
+    }>({
       query: queryString,
       variables: { limit, skip, keyword, sort },
     })
 
     return {
       success: true,
-      data: result.data?.get_product_list ?? [],
+      data: result.data?.get_product_list?.data ?? [],
+      count: result?.data?.get_product_list?.paging?.count ?? 0,
       skip,
       limit,
     }
@@ -210,7 +218,7 @@ export const addProduct: (props: {
     })
     return {
       success: true,
-      data: result.data.addProduct,
+      data: result.data?.addProduct,
     }
   } catch (error) {
     return {
