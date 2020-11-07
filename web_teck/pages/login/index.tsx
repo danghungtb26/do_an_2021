@@ -2,7 +2,6 @@ import { Button, Grid, Input } from '@material-ui/core'
 import cookies from 'next-cookies'
 import React from 'react'
 import Router from 'next/router'
-import { getInitialTokenProps, getInitialTokenPropsAndCheck } from 'commons'
 import { signIn, signUp } from '../../api/auth'
 import type { IPayloadUser } from '../../api/types'
 import { AUTHEN_TOKEN_WEB_TECK } from '../../constants'
@@ -146,7 +145,16 @@ const Login = () => {
 export default Login
 
 Login.getInitialProps = async (ctx: any) => {
-  const { user } = getInitialTokenPropsAndCheck(ctx)
+  const cookies2 = cookies(ctx)
 
-  return { user }
+  const token = cookies2[AUTHEN_TOKEN_WEB_TECK]
+  if (token)
+    if (ctx.res) {
+      ctx.res.writeHead(302, { Location: '/' })
+      ctx.res.end()
+    } else {
+      Router.replace('/')
+    }
+
+  return { search: 'haha', authen: token }
 }

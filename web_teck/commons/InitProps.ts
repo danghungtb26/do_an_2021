@@ -14,7 +14,6 @@ export const getInitialTokenProps = async (ctx: any) => {
 
   if (token) {
     const result = await getUserInfo(token)
-    console.log('result', result)
     if (result.success) {
       dataUser = result.data as IPayloadUser
     }
@@ -51,6 +50,7 @@ export const getInitialTokenPropsAndCheck = async (ctx: any) => {
         }
     }
   }
+  console.log('dataUser', dataUser)
 
   return { token, user: dataUser }
 }
