@@ -4,6 +4,11 @@ import { getInitialTokenProps } from 'commons'
 import type { NextPage } from 'next'
 import moment from 'moment'
 import React from 'react'
+import { Grid } from '@material-ui/core'
+import { VisibilityOutlined, CommentOutlined, ThumbUpAltOutlined } from '@material-ui/icons'
+import { Pagination } from '@material-ui/lab'
+import { useRouter } from 'next/router'
+import { format_date } from '../../constants'
 import { Breadcrumb, Footer, Navbar, Sidebar } from '../../components'
 
 interface IDuanNewProps {
@@ -12,18 +17,28 @@ interface IDuanNewProps {
   success?: boolean
   message?: string
   code?: string
-  count?: number
+  count: number
+  page: number
   user?: IPayloadUser
 }
 
-const DuanNew: NextPage<IDuanNewProps> = ({ product, authen, user }) => {
+const DuanNew: NextPage<IDuanNewProps> = ({ product, authen, user, count, page }) => {
   // const [productState, setProduct] = React.useState<IPayloadProduct[]>(product)
   // console.log('productState', product)
+  const router = useRouter()
+  const onChangePage: (_: any, page2: number) => void = (_, page2) => {
+    router.push({
+      pathname: `/duannew`,
+      query: {
+        page: page2,
+      },
+    })
+  }
 
   return (
     <>
       <Navbar authen={authen} user={user} />
-      <Breadcrumb />
+      {/* <Breadcrumb /> */}
       <div className="site-section">
         <div className="container">
           <div className="row">
@@ -35,48 +50,69 @@ const DuanNew: NextPage<IDuanNewProps> = ({ product, authen, user }) => {
                       <article
                         key={i.id}
                         id="post-8"
-                        className="post-8 post type-post status-publish format-standard has-post-thumbnail hentry">
-                        <div className="row">
-                          <div className="entry-media col-xs-12 col-sm-4">
-                            <a
-                              href="/duannew/du-an-tiem-nang/he-thong-tu-van-thong-minh-ve-dinh-duong-va-ve-sinh-an-toan-thuc-pham-8.html"
-                              className="entry-media-inner">
-                              <img
-                                src="/images/21.png"
-                                className="attachment-fw-blog-post-shortcode size-fw-blog-post-shortcode wp-post-image"
-                                alt="Hệ thống tư vấn thông minh dinh dưỡng, vệ sinh, an toàn thực phẩm"
-                              />
-                            </a>
-                          </div>
-
-                          <div className="entry-content-wrapper col-xs-12 col-sm-8">
-                            <h3 className="entry-title">
-                              <a href="/">{i.title}</a>
-                            </h3>
-
-                            <div
-                              className="entry-excerpt"
-                              style={{ marginTop: 12 }}
-                              dangerouslySetInnerHTML={{
-                                __html: `${i.sort_description}`,
-                              }}
+                        className="post-8 post box-article-product type-post status-publish format-standard has-post-thumbnail hentry">
+                        <Grid container>
+                          <Grid md={1}>
+                            <img
+                              className="pointer"
+                              style={{ width: 40, height: 40, borderRadius: 40 }}
+                              alt=""
+                              src="/images/user_profile.png"
                             />
-
-                            <div className="entry-meta" style={{ marginBottom: '1rem' }}>
-                              <span className="entry-date" style={{ color: '#ababab' }}>
-                                {`Ngày ${moment(i.created_at).format()} |`}
-                                <a
-                                  href="/duannew/du-an-tiem-nang/he-thong-tu-van-thong-minh-ve-dinh-duong-va-ve-sinh-an-toan-thuc-pham-8.html"
-                                  style={{ color: '#ababab' }}>
-                                  Xem tiếp
-                                </a>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
+                          </Grid>
+                          <Grid md={11}>
+                            <Grid
+                              container
+                              style={{ marginTop: '2px', alignItems: 'center', display: 'flex' }}>
+                              <div className="pointer box-article-user">
+                                {(i.owner as IPayloadUser)?.name}
+                              </div>
+                              <div className="box-article-created-at">
+                                {moment(i.created_at).format(format_date.HH_mm_DD_MM_YYYY)}
+                              </div>
+                            </Grid>
+                            <Grid container>
+                              <div className="pointer box-article-title three-dot">{i.title}</div>
+                            </Grid>
+                            <Grid container>
+                              <div className="three-line three-dot box-article-sort-description">
+                                {i.sort_description}
+                              </div>
+                            </Grid>
+                            <Grid container style={{ marginTop: '4px', marginBottom: '4px' }}>
+                              <div>
+                                <Grid container style={{ alignItems: 'center', display: 'flex' }}>
+                                  <ThumbUpAltOutlined style={{ fontSize: 12, color: '#9b9b9b' }} />
+                                  <div className="txt-view">{`${i.react_count}`}</div>
+                                </Grid>
+                              </div>
+                              <div style={{ marginLeft: '12px' }}>
+                                <Grid container style={{ alignItems: 'center', display: 'flex' }}>
+                                  <VisibilityOutlined style={{ fontSize: 12, color: '#9b9b9b' }} />
+                                  <div className="txt-view">{`${i.view_count}`}</div>
+                                </Grid>
+                              </div>
+                              <div style={{ marginLeft: '12px' }}>
+                                <Grid container style={{ alignItems: 'center', display: 'flex' }}>
+                                  <CommentOutlined style={{ fontSize: 12, color: '#9b9b9b' }} />
+                                  <div className="txt-view">{`${i.comment_count}`}</div>
+                                </Grid>
+                              </div>
+                            </Grid>
+                          </Grid>
+                        </Grid>
                       </article>
                     )
                   })}
+                </div>
+                <div className="view-pagination">
+                  <Pagination
+                    onChange={onChangePage}
+                    count={Math.ceil(count / 10)}
+                    defaultValue={page}
+                    variant="outlined"
+                    color="secondary"
+                  />
                 </div>
               </div>
             </div>
@@ -92,10 +128,11 @@ const DuanNew: NextPage<IDuanNewProps> = ({ product, authen, user }) => {
 
 DuanNew.getInitialProps = async (ctx: any) => {
   const { token, user } = await getInitialTokenProps(ctx)
+  const { page } = ctx.query
   const result = await getProductList({
     authen: token,
     limit: 10,
-    skip: 0,
+    skip: (page - 1) * 10,
     sort: [{ name: 'created_at', desc: true }],
     keyword: '',
   })
@@ -107,7 +144,8 @@ DuanNew.getInitialProps = async (ctx: any) => {
     success: result.success,
     message: result?.message,
     code: result?.code,
-    count: result?.count,
+    count: result?.count ?? 10,
+    page: page || 1,
   }
 }
 

@@ -1,5 +1,5 @@
-import { Button, Container, Grid, TextField } from '@material-ui/core'
-import { Router } from 'next/router'
+import { Button, CircularProgress, Container, Grid, TextField } from '@material-ui/core'
+import Router from 'next/router'
 import React from 'react'
 import { roles } from '../../../constants'
 import { addProduct } from '../../../api'
@@ -16,12 +16,13 @@ interface INewProductPageState {
   keyword: string
   sortDescription: string
   description: string
+  loading: boolean
 }
 
 class NewProductPage extends React.Component<INewProductPageProps, INewProductPageState> {
   static getInitialProps = async (ctx: any) => {
     await checkTokenInInitial(ctx)
-    const { user } = await getInitialTokenProps(ctx)
+    const { user, token } = await getInitialTokenProps(ctx)
     if (!user?.id || user?.role !== roles.user)
       if (ctx.res) {
         ctx.res.writeHead(302, { Location: '/login' })
@@ -30,7 +31,7 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
         Router.replace('/login')
       }
 
-    return { user }
+    return { user, authen: token }
   }
 
   constructor(props: INewProductPageProps) {
@@ -40,6 +41,7 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
       keyword: '',
       sortDescription: '',
       description: '',
+      loading: false,
     }
   }
 
@@ -54,7 +56,8 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
   }
 
   onChangeSortDescription = (e) => {
-    this.setState({ sortDescription: e })
+    const { value } = e.target
+    this.setState({ sortDescription: value })
   }
 
   onChangeDescription = (e) => {
@@ -64,6 +67,7 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
   onSubmit = () => {
     const { title, keyword, sortDescription, description } = this.state
     const { authen } = this.props
+    if (!title || !sortDescription || !description) return
     const param = {
       authen,
       title,
@@ -72,10 +76,13 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
       description,
     }
 
-    addProduct(param).then((r) => {
-      if (r) {
-        this.setState({ title: '', keyword: '', sortDescription: '', description: '' })
-      }
+    this.setState({ loading: true }, () => {
+      addProduct(param).then((r) => {
+        if (r.success) {
+          this.setState({ title: '', keyword: '', sortDescription: '', description: '' })
+          Router.replace('/me?tabindex=product', undefined, { shallow: true })
+        }
+      })
     })
   }
 
@@ -114,7 +121,14 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
           <div className="txt-title-key-product-new">Mô tả ngắn *</div>
         </Grid>
 
-        <Editor value={sortDescription} onChange={this.onChangeSortDescription} />
+        <TextField
+          multiline
+          rows={8}
+          variant="outlined"
+          fullWidth
+          value={sortDescription}
+          onChange={this.onChangeSortDescription}
+        />
       </Grid>
     )
   }
@@ -141,12 +155,14 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
   }
 
   renderSubmit = () => {
+    const { loading } = this.state
     return (
       <Grid container className="field-input-product-new">
         <Button
           color="secondary"
           onClick={this.onSubmit}
           style={{ backgroundColor: 'tomato', color: 'white' }}>
+          {loading ? <CircularProgress size={24} color="primary" /> : null}
           Đăng bài
         </Button>
       </Grid>
