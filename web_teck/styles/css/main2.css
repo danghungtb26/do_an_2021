@@ -254,8 +254,8 @@ iframe {
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 }
-.input100:focus + .focus-input100::after {
-  top: -15px;
+.focus-input100::after {
+  top: -20px;
 }
 .input100:focus + .focus-input100::before {
   width: 100%;

@@ -79,7 +79,7 @@ class ProductPage extends React.Component<IProductPage> {
     return (
       <Grid container style={{ height: 48, alignItems: 'center' }}>
         <Grid item md={10}>
-          <div className="txt-title-header-product-list">Danh sách sản phẩm của bạn</div>
+          <div className="txt-title-header-product-list">Danh sách sản phẩm</div>
         </Grid>
         <Grid item md={2}>
           <ButtonLink title="Tạo mới" href="/me/product/new" />
