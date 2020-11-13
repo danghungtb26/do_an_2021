@@ -131,6 +131,9 @@ const Login = () => {
               />
             </div>
           )}
+          <Grid container alignItems="center" style={{ width: '100%' }}>
+            <div style={{ fontSize: 12, color: 'red' }}>{error}</div>
+          </Grid>
           <div className="container-login100-form-btn">
             <div className="wrap-login100-form-btn">
               <div className="login100-form-bgbtn" />
@@ -142,6 +145,7 @@ const Login = () => {
               </button>
             </div>
           </div>
+
           <Grid
             container
             className="text-center p-t-115"
