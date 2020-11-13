@@ -14,7 +14,7 @@ const ButtonLink: React.FC<IButtonLinkProps & LinkProps> = ({
   ...restProps
 }) => {
   return (
-    <Link href={href} {...restProps}>
+    <Link prefetch={false} href={href} {...restProps}>
       <div className="btn-edit-profile">{title}</div>
     </Link>
   )
