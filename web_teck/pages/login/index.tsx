@@ -1,7 +1,8 @@
-import { Button, Grid, Input } from '@material-ui/core'
+import { Button, CircularProgress, Grid, Input } from '@material-ui/core'
 import cookies from 'next-cookies'
 import React from 'react'
 import Router from 'next/router'
+import { password } from 'database/config'
 import { signIn, signUp } from '../../api/auth'
 import type { IPayloadUser } from '../../api/types'
 import { AUTHEN_TOKEN_WEB_TECK } from '../../constants'
@@ -14,6 +15,9 @@ const Login = () => {
     confirm_password: '',
     is_sign_up: false,
   })
+
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [error, setError] = React.useState<string>('')
 
   const toggle_sign = () => {
     setState((s) => ({ ...s, is_sign_up: !s.is_sign_up, confirm_password: '', password: '' }))
@@ -29,11 +33,13 @@ const Login = () => {
 
       case 'password': {
         setState((s) => ({ ...s, password: value }))
+        setError('')
         break
       }
 
       case 'confirm_password': {
         setState((s) => ({ ...s, confirm_password: value }))
+        setError('')
         break
       }
 
@@ -44,15 +50,20 @@ const Login = () => {
 
   const onSubmit = () => {
     if (!state.is_sign_up) {
+      setLoading(true)
       signIn({ email: state.email, password: state.password }).then((r) => {
-        console.log('onSubmit -> r', r)
-
         if (r.success) {
           document.cookie = `${AUTHEN_TOKEN_WEB_TECK}=${(r.data as IPayloadUser).token}`
-          Router.replace('/')
+          Router.replace('/', undefined, { shallow: true })
+        } else {
+          setLoading(false)
+          setError('Xảy ra lỗi! Vui lòng thử lại.')
         }
       })
     } else {
+      if (state.password !== state.confirm_password) {
+        setError('Mật khẩu không khớp')
+      }
       signUp({
         email: state.email,
         password: state.password,
@@ -60,7 +71,10 @@ const Login = () => {
       }).then((r) => {
         if (r.success) {
           document.cookie = `${AUTHEN_TOKEN_WEB_TECK}=${(r.data as IPayloadUser).token}`
-          Router.replace('/')
+          Router.replace('/', undefined, { shallow: true })
+        } else {
+          setLoading(false)
+          setError('Xảy ra lỗi! Vui lòng thử lại.')
         }
       })
     }
@@ -121,6 +135,9 @@ const Login = () => {
             <div className="wrap-login100-form-btn">
               <div className="login100-form-bgbtn" />
               <button onClick={onSubmit} type="submit" className="login100-form-btn">
+                {loading ? (
+                  <CircularProgress size={24} style={{ marginRight: 12, color: '#fff' }} />
+                ) : null}{' '}
                 Đăng nhập
               </button>
             </div>
