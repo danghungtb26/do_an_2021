@@ -1,6 +1,6 @@
-import { getProductList } from 'api'
-import type { IPayloadProduct, IPayloadUser } from 'api/types'
-import { getInitialTokenProps } from 'commons'
+import { getProductList } from 'src/api'
+import type { IPayloadProduct, IPayloadUser } from 'src/api/types'
+import { getInitialTokenProps } from 'src/commons'
 import type { NextPage } from 'next'
 import moment from 'moment'
 import React from 'react'
@@ -8,8 +8,9 @@ import { Grid } from '@material-ui/core'
 import { VisibilityOutlined, CommentOutlined, ThumbUpAltOutlined } from '@material-ui/icons'
 import { Pagination } from '@material-ui/lab'
 import { useRouter } from 'next/router'
-import { format_date } from '../../constants'
-import { Breadcrumb, Footer, Navbar, Sidebar } from '../../components'
+import Link from 'next/link'
+import { format_date } from 'src/constants'
+import { Breadcrumb, Footer, Navbar, Sidebar } from 'src/components'
 
 interface IDuanNewProps {
   product: IPayloadProduct[]
@@ -72,7 +73,9 @@ const DuanNew: NextPage<IDuanNewProps> = ({ product, authen, user, count, page }
                               </div>
                             </Grid>
                             <Grid container>
-                              <div className="pointer box-article-title three-dot">{i.title}</div>
+                              <Link href={`/duannew/${i.id}`}>
+                                <div className="pointer box-article-title three-dot">{i.title}</div>
+                              </Link>
                             </Grid>
                             <Grid container>
                               <div className="three-line three-dot box-article-sort-description">

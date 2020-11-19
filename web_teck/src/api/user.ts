@@ -126,3 +126,16 @@ export const getProductListOfUser: (props: {
     }
   }
 }
+
+export const queryStringUser = `
+  get_user_info {
+    id
+    name
+    avatar
+    introduction
+    email
+    phone
+    role
+    product_count
+    article_count
+}`

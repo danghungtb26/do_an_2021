@@ -1,5 +1,5 @@
 import React from 'react'
-import { Breadcrumb, Footer, Navbar, Sidebar } from '../../components'
+import { Breadcrumb, Footer, Navbar, Sidebar } from 'src/components'
 
 const Catalog = () => {
   return (

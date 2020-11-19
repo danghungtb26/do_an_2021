@@ -4,13 +4,13 @@ import Link from 'next/link'
 import Router, { useRouter } from 'next/router'
 import React from 'react'
 import moment from 'moment'
-import type { IPayloadProduct, IPayloadUser } from 'api/types'
-import { getProductListOfUser } from 'api'
+import type { IPayloadProduct, IPayloadUser } from 'src/api/types'
+import { getProductListOfUser } from 'src/api'
 import { Pagination } from '@material-ui/lab'
 import { CommentOutlined, ThumbUpAltOutlined, VisibilityOutlined } from '@material-ui/icons'
-import { format_date, roles } from '../../constants'
-import { checkTokenInInitial, getInitialTokenProps } from '../../commons'
-import { ButtonLink, Footer, Navbar } from '../../components'
+import { format_date, roles } from 'src/constants'
+import { checkTokenInInitial, getInitialTokenProps } from 'src/commons'
+import { ButtonLink, Footer, Navbar } from 'src/components'
 
 interface IMePageProps {
   user?: IPayloadUser

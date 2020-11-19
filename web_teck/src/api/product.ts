@@ -227,3 +227,21 @@ export const addProduct: (props: {
     }
   }
 }
+
+export const queryProductDetail = `
+  get_product_by_id(id: $product_id) {
+		id
+    title
+    keyword
+    sort_description
+    description
+    react_count
+    comment_count
+    view_count
+    owner {
+      id
+      introduction
+      phone
+      email
+		}
+  }`

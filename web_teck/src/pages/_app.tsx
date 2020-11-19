@@ -1,4 +1,5 @@
 import React from 'react'
+import { ApolloProvider } from '@apollo/client'
 
 import '../styles/css/combined.min.css'
 import '../styles/css/contact.css'
@@ -17,6 +18,7 @@ import '../styles/css/main2.css'
 import '../styles/css/util.css'
 import '../styles/admin/css/styles.css'
 import '../styles/me/css/styles.css'
+import client from 'src/api/client'
 import { AUTHEN_TOKEN_WEB_TECK } from '../constants'
 // import '../styles/admin/css/patternfly-additions.css'
 // import '../styles/admin/css/zocial.css'
@@ -25,7 +27,11 @@ import { AUTHEN_TOKEN_WEB_TECK } from '../constants'
 // @ts-ignore
 function MyApp({ Component, pageProps }) {
   // @ts-ignore
-  return <Component {...pageProps} />
+  return (
+    <ApolloProvider client={client}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  )
 }
 
 export default MyApp

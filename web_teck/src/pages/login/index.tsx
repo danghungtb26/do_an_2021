@@ -2,10 +2,9 @@ import { Button, CircularProgress, Grid, Input } from '@material-ui/core'
 import cookies from 'next-cookies'
 import React from 'react'
 import Router from 'next/router'
-import { password } from 'database/config'
-import { signIn, signUp } from '../../api/auth'
-import type { IPayloadUser } from '../../api/types'
-import { AUTHEN_TOKEN_WEB_TECK } from '../../constants'
+import { signIn, signUp } from 'src/api/auth'
+import type { IPayloadUser } from 'src/api/types'
+import { AUTHEN_TOKEN_WEB_TECK } from 'src/constants'
 // import { signUpMongo } from '../../database/Controllers'
 
 const Login = () => {

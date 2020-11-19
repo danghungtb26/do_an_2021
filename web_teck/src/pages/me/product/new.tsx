@@ -1,11 +1,11 @@
 import { Button, CircularProgress, Container, Grid, TextField } from '@material-ui/core'
 import Router from 'next/router'
 import React from 'react'
-import { roles } from '../../../constants'
-import { addProduct } from '../../../api'
-import { checkTokenInInitial, getInitialTokenProps } from '../../../commons'
+import { roles } from 'src/constants'
+import { addProduct } from 'src/api'
+import { checkTokenInInitial, getInitialTokenProps } from 'src/commons'
 
-import { Editor, Footer, Navbar } from '../../../components'
+import { Editor, Footer, Navbar } from 'src/components'
 
 interface INewProductPageProps {
   authen: string

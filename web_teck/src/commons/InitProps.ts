@@ -1,8 +1,8 @@
-import { getUserInfo } from 'api'
-import type { IPayloadUser } from 'api/types'
+import { getUserInfo } from 'src/api'
+import type { IPayloadUser } from 'src/api/types'
 import cookies from 'next-cookies'
 import router from 'next/router'
-import { AUTHEN_TOKEN_WEB_TECK, roles } from '../constants'
+import { AUTHEN_TOKEN_WEB_TECK, roles } from 'src/constants'
 
 // func lấy ra token trong cookie
 export const getInitialTokenProps = async (ctx: any) => {

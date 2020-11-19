@@ -1,9 +1,9 @@
 import { Container, Grid } from '@material-ui/core'
-import { checkTokenInInitial, getInitialTokenProps } from 'commons'
+import { checkTokenInInitial, getInitialTokenProps } from 'src/commons'
 import { Router } from 'next/router'
 import React from 'react'
-import { roles } from '../../../constants'
-import { ButtonLink, Footer, Navbar, Table } from '../../../components'
+import { roles } from 'src/constants'
+import { ButtonLink, Footer, Navbar, Table } from 'src/components'
 
 interface IProductPage {}
 
