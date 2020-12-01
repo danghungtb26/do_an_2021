@@ -119,7 +119,7 @@ const DuanNew: NextPage<IDuanNewProps> = ({ product, authen, user, count, page }
                 </div>
               </div>
             </div>
-            <Sidebar />
+            {/* <Sidebar /> */}
           </div>
         </div>
       </div>

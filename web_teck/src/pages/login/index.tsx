@@ -1,5 +1,5 @@
-import { Button, CircularProgress, Grid, Input } from '@material-ui/core'
-import cookies from 'next-cookies'
+import { CircularProgress, Grid } from '@material-ui/core'
+
 import React from 'react'
 import Router from 'next/router'
 import { signIn, signUp } from 'src/api/auth'
@@ -17,6 +17,11 @@ const Login = () => {
 
   const [loading, setLoading] = React.useState<boolean>(false)
   const [error, setError] = React.useState<string>('')
+
+  React.useEffect(() => {
+    const authen = localStorage.getItem(AUTHEN_TOKEN_WEB_TECK)
+    if (authen) Router.push('/')
+  }, [])
 
   const toggle_sign = () => {
     setState((s) => ({ ...s, is_sign_up: !s.is_sign_up, confirm_password: '', password: '' }))
@@ -53,6 +58,7 @@ const Login = () => {
       signIn({ email: state.email, password: state.password }).then((r) => {
         if (r.success) {
           document.cookie = `${AUTHEN_TOKEN_WEB_TECK}=${(r.data as IPayloadUser).token}`
+          localStorage.setItem(AUTHEN_TOKEN_WEB_TECK, `${(r.data as IPayloadUser).token || ''}`)
           Router.replace('/', undefined, { shallow: true })
         } else {
           setLoading(false)
@@ -70,6 +76,7 @@ const Login = () => {
       }).then((r) => {
         if (r.success) {
           document.cookie = `${AUTHEN_TOKEN_WEB_TECK}=${(r.data as IPayloadUser).token}`
+          localStorage.setItem(AUTHEN_TOKEN_WEB_TECK, `${(r.data as IPayloadUser).token || ''}`)
           Router.replace('/', undefined, { shallow: true })
         } else {
           setLoading(false)
@@ -163,18 +170,3 @@ const Login = () => {
 }
 
 export default Login
-
-Login.getInitialProps = async (ctx: any) => {
-  const cookies2 = cookies(ctx)
-
-  const token = cookies2[AUTHEN_TOKEN_WEB_TECK]
-  if (token)
-    if (ctx.res) {
-      ctx.res.writeHead(302, { Location: '/' })
-      ctx.res.end()
-    } else {
-      Router.replace('/')
-    }
-
-  return { search: 'haha', authen: token }
-}

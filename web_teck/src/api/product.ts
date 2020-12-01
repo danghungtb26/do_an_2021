@@ -20,6 +20,7 @@ export const getProductList: (props: {
   skip?: number
   sort?: Array<{ name: string; desc: boolean }>
   keyword?: string
+  category?: string | number
 }) => Promise<IResponseApi<IPayloadProduct>> = async (props) => {
   try {
     const queryString = gql`
@@ -95,6 +96,8 @@ export const getProductDetail: (props: {
           react_count
           comment_count
           view_count
+          budget
+          deployment_time
           owner {
             id
             introduction
@@ -163,12 +166,16 @@ export const addProduct: (props: {
   keyword: string
   sort_description: string
   description: string
+  budget: String
+  deployment_time: String
 }) => Promise<IResponseApi<IPayloadProduct>> = async ({
   authen,
   title,
   keyword,
   sort_description,
   description,
+  budget,
+  deployment_time,
 }) => {
   try {
     const queryString = gql`
@@ -177,6 +184,8 @@ export const addProduct: (props: {
         $keyword: String
         $sort_description: String!
         $description: String!
+        $budget: String!
+        $deployment_time: String!
       ) {
         addProduct(
           product: {
@@ -184,6 +193,8 @@ export const addProduct: (props: {
             keyword: $keyword
             sort_description: $sort_description
             description: $description
+            budget: $budget
+            deployment_time: $deployment_time
           }
         ) {
           id
@@ -209,6 +220,8 @@ export const addProduct: (props: {
         keyword,
         sort_description,
         description,
+        budget,
+        deployment_time,
       },
       context: {
         headers: {

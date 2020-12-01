@@ -12,6 +12,13 @@ export interface IResponseApi<T> {
   count?: number
 }
 
+export interface IPayloadBase {
+  id?: string | number
+  updated_at?: string
+  created_at?: string
+  status?: string | number
+}
+
 export interface IPayloadUser {
   id?: string | number
   token?: string
@@ -42,4 +49,10 @@ export interface IPayloadProduct {
   view_count?: number
   updated_at?: string
   created_at?: string
+}
+
+export interface IPayloadCategory extends IPayloadBase {
+  name?: string
+  description?: string
+  product_count?: string | number
 }

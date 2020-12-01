@@ -1,7 +1,7 @@
 import { Button, CircularProgress, Container, Grid, TextField } from '@material-ui/core'
 import Router from 'next/router'
 import React from 'react'
-import { roles } from 'src/constants'
+import { AUTHEN_TOKEN_WEB_TECK, roles } from 'src/constants'
 import { addProduct } from 'src/api'
 import { checkTokenInInitial, getInitialTokenProps } from 'src/commons'
 
@@ -17,6 +17,8 @@ interface INewProductPageState {
   sortDescription: string
   description: string
   loading: boolean
+  budget: string
+  deployment_time: string
 }
 
 class NewProductPage extends React.Component<INewProductPageProps, INewProductPageState> {
@@ -41,8 +43,16 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
       keyword: '',
       sortDescription: '',
       description: '',
+      budget: '',
+      deployment_time: '',
       loading: false,
     }
+  }
+
+
+  componentDidMount() {
+    const authen = localStorage.getItem(AUTHEN_TOKEN_WEB_TECK)
+    if (!authen) Router.push('/login')
   }
 
   onChangeTitle = (event) => {
@@ -55,6 +65,16 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
     this.setState({ keyword: value })
   }
 
+  onChangeBudget = (event) => {
+    const { value } = event.target
+    this.setState({ budget: `${value}`.replace(/\D/g, '') })
+  }
+
+  onChangeTime = (event) => {
+    const { value } = event.target
+    this.setState({ deployment_time: `${value}`.replace(/\D/g, '') })
+  }
+
   onChangeSortDescription = (e) => {
     const { value } = e.target
     this.setState({ sortDescription: value })
@@ -65,7 +85,7 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
   }
 
   onSubmit = () => {
-    const { title, keyword, sortDescription, description } = this.state
+    const { title, keyword, sortDescription, description, budget, deployment_time } = this.state
     const { authen } = this.props
     if (!title || !sortDescription || !description) return
     const param = {
@@ -74,6 +94,8 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
       keyword,
       sort_description: sortDescription,
       description,
+      budget,
+      deployment_time,
     }
 
     this.setState({ loading: true }, () => {
@@ -109,6 +131,37 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
         </Grid>
 
         <TextField variant="outlined" fullWidth value={keyword} onChange={this.onChangeKeyword} />
+      </Grid>
+    )
+  }
+
+  renderBudget = () => {
+    const { budget } = this.state
+    return (
+      <Grid container className="field-input-product-new">
+        <Grid item md={12}>
+          <div className="txt-title-key-product-new">Kinh phí (VND)</div>
+        </Grid>
+
+        <TextField variant="outlined" fullWidth value={budget} onChange={this.onChangeBudget} />
+      </Grid>
+    )
+  }
+
+  renderDevelopTime = () => {
+    const { deployment_time } = this.state
+    return (
+      <Grid container className="field-input-product-new">
+        <Grid item md={12}>
+          <div className="txt-title-key-product-new">Thời gian phát triển (tháng)</div>
+        </Grid>
+
+        <TextField
+          variant="outlined"
+          fullWidth
+          value={deployment_time}
+          onChange={this.onChangeTime}
+        />
       </Grid>
     )
   }
@@ -172,7 +225,7 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
   render() {
     return (
       <>
-        <Navbar {...this.props} />
+        <Navbar />
 
         <div className="site-section">
           <div className="container">
@@ -180,6 +233,8 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
               {this.renderHeader()}
               {this.renderTitle()}
               {this.renderKeyword()}
+              {this.renderBudget()}
+              {this.renderDevelopTime()}
               {this.renderSortDescription()}
               {this.renderDescription()}
               {this.renderSubmit()}

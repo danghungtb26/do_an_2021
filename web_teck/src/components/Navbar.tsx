@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
+import type { IPayloadUser } from 'src/api/types'
+import { getUserInfo } from 'src/api'
 import { AUTHEN_TOKEN_WEB_TECK, roles } from '../constants'
 
 const TestA: React.FC<{ setShowPopup: (a: boolean) => void }> = ({ setShowPopup }) => {
@@ -20,6 +22,7 @@ const TestA: React.FC<{ setShowPopup: (a: boolean) => void }> = ({ setShowPopup 
 
   const onSignOut = () => {
     document.cookie = `${AUTHEN_TOKEN_WEB_TECK}=;`
+    localStorage.removeItem(AUTHEN_TOKEN_WEB_TECK)
     Router.reload()
   }
 
@@ -48,13 +51,28 @@ const TestA: React.FC<{ setShowPopup: (a: boolean) => void }> = ({ setShowPopup 
   )
 }
 
-const Navbar = (props) => {
+const Navbar = () => {
   const [showPopup, setShowPopup] = React.useState(false)
-  const { user } = props || {}
+  const [user, setUser] = React.useState<IPayloadUser | undefined>(undefined)
+  const [loading, setLoading] = React.useState<boolean>(true)
+  React.useEffect(() => {
+    const authen = localStorage.getItem(AUTHEN_TOKEN_WEB_TECK)
+    if (!authen) {
+      setLoading(false)
+    }
+    getUserInfo(`${authen}`).then((r) => {
+      if (r.success) {
+        setUser(r.data as IPayloadUser)
+        setLoading(false)
+      } else setLoading(false)
+    })
+  }, [])
 
   const toggleUserPopup = () => {
     setShowPopup(!showPopup)
   }
+
+  if (loading) return null
 
   return (
     <header className="header sticky">
@@ -83,19 +101,19 @@ const Navbar = (props) => {
                         </li>
 
                         <li>
-                          <Link href="/duannew">Dự Án</Link>
+                          <Link href="/product">Dự Án</Link>
                         </li>
 
                         {/* <li>
                           <Link href="/catalog">Dự Án Tiềm Năng</Link>
                         </li> */}
 
-                        <li>
-                          <Link href="/new">Tin tức - Sự kiện</Link>
-                        </li>
+                        {/* <li>
+                          <a href="/new">Tin tức - Sự kiện</a>
+                        </li> */}
 
                         <li>
-                          <Link href="/contact">Liên hệ</Link>
+                          <a href="/contact">Liên hệ</a>
                         </li>
                       </ul>
                     </nav>

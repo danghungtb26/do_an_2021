@@ -1,0 +1,8 @@
+.view-category {
+    padding: 12px 12px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.category-checked {
+    color: crimson;
+}
