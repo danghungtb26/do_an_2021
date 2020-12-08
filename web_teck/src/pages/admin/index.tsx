@@ -1,19 +1,12 @@
 import React from 'react'
-import Router, { useRouter } from 'next/router'
-
-console.log('Router', Router)
+import { useRouter } from 'next/router'
 
 const AdminPage = () => {
-  //   const route = useRouter()
-  //   React.useEffect(() => {
-  //     route.push('/admin/sign-in')
-  //   }, [])
-  return <p>aaaaa</p>
+  const route = useRouter()
+  React.useEffect(() => {
+    route.push('/admin/login', undefined, { shallow: true })
+  }, [])
+  return <div />
 }
 
 export default AdminPage
-
-AdminPage.getInitialProps = async ({ req, res }) => {
-  //   window.location.href('/admin/sign-in')
-  return {}
-}

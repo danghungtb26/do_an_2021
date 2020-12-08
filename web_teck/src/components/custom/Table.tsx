@@ -8,6 +8,16 @@ import {
 } from '@material-ui/core'
 import React from 'react'
 
+export interface IColumn {
+  id: number | string
+  label: string
+  format?: any
+  align?: string
+  minWidth?: number
+  maxWidth?: number
+  width?: number
+}
+
 interface ITableProps {
   columns: Array<Record<string, any>>
   data: Array<Record<string, any>>
@@ -17,7 +27,7 @@ interface ITableProps {
 const Table: React.FC<ITableProps> = (props) => {
   const { columns, data = [], keyProps = 'id' } = props
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', width: '100%' }}>
       <TableContainer style={{ width: '100%' }}>
         <TableCore stickyHeader aria-label="sticky table">
           <TableHead>

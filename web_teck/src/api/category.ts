@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import client from './client'
 import type { IPayloadCategory, IResponseApi } from './types'
 
-export const getCategoryList: () => Promise<IResponseApi<IPayloadCategory>> = async () => {
+export const getCategoryList: () => Promise<IResponseApi<IPayloadCategory[]>> = async () => {
   try {
     const queryString = gql`
       query getCategoryList {

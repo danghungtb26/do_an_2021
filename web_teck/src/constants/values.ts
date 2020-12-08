@@ -21,9 +21,25 @@ export const product_status = {
   reject: 2,
   reported: 3,
   blocked: 4,
-  deleted: 0,
+  deleted: 5,
+}
+
+export const product_status_value: Record<number, string> = {
+  0: 'new',
+  1: 'pending',
+  2: 'reject',
+  3: 'reported',
+  4: 'blocked',
+  5: 'deleted',
 }
 
 export const product_status_list = _.values(product_status)
 
 export const roles_list = [roles.admin, roles.user]
+
+export const active_type: Record<string, any> = {
+  aprove: 'aprove',
+  reject: 'reject',
+  inactive: 'inactive',
+  reactive: 'reactive',
+}

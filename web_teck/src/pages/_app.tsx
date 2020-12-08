@@ -14,6 +14,7 @@ import '../styles/css/vista.css'
 import '../styles/css/owl.carousel.css'
 import '../styles/css/owl.theme.css'
 import '../styles/css/owl.transitions.css'
+
 import '../styles/css/main2.css'
 import '../styles/css/util.css'
 import '../styles/admin/css/styles.css'

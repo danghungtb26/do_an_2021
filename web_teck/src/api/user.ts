@@ -61,7 +61,7 @@ export const getProductListOfUser: (props: {
   skip?: number
   limit?: number
   keyword?: string
-}) => Promise<IResponseApi<IPayloadProduct>> = async ({
+}) => Promise<IResponseApi<IPayloadProduct[]>> = async ({
   authen,
   id,
   skip = 0,

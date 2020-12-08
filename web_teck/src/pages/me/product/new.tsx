@@ -1,11 +1,12 @@
-import { Button, CircularProgress, Container, Grid, TextField } from '@material-ui/core'
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { Button, CardMedia, CircularProgress, Container, Grid, TextField } from '@material-ui/core'
 import Router from 'next/router'
 import React from 'react'
-import { AUTHEN_TOKEN_WEB_TECK, roles } from 'src/constants'
-import { addProduct } from 'src/api'
-import { checkTokenInInitial, getInitialTokenProps } from 'src/commons'
+import { AUTHEN_TOKEN_WEB_TECK } from 'src/constants'
+import { addProduct, uploadImage } from 'src/api'
 
 import { Editor, Footer, Navbar } from 'src/components'
+import { resizeImage } from 'src/commons'
 
 interface INewProductPageProps {
   authen: string
@@ -19,22 +20,12 @@ interface INewProductPageState {
   loading: boolean
   budget: string
   deployment_time: string
+  avatar: string
+  attachment: Array<string>
 }
 
 class NewProductPage extends React.Component<INewProductPageProps, INewProductPageState> {
-  static getInitialProps = async (ctx: any) => {
-    await checkTokenInInitial(ctx)
-    const { user, token } = await getInitialTokenProps(ctx)
-    if (!user?.id || user?.role !== roles.user)
-      if (ctx.res) {
-        ctx.res.writeHead(302, { Location: '/login' })
-        ctx.res.end()
-      } else {
-        Router.replace('/login')
-      }
-
-    return { user, authen: token }
-  }
+  upload: boolean = false
 
   constructor(props: INewProductPageProps) {
     super(props)
@@ -46,9 +37,10 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
       budget: '',
       deployment_time: '',
       loading: false,
+      avatar: '',
+      attachment: [],
     }
   }
-
 
   componentDidMount() {
     const authen = localStorage.getItem(AUTHEN_TOKEN_WEB_TECK)
@@ -85,18 +77,29 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
   }
 
   onSubmit = () => {
-    const { title, keyword, sortDescription, description, budget, deployment_time } = this.state
-    const { authen } = this.props
+    if (this.upload) return
+    const {
+      title,
+      keyword,
+      sortDescription,
+      description,
+      budget,
+      deployment_time,
+      attachment,
+    } = this.state
+    const authen = localStorage.getItem(AUTHEN_TOKEN_WEB_TECK)
     if (!title || !sortDescription || !description) return
     const param = {
-      authen,
+      authen: authen || '',
       title,
       keyword,
       sort_description: sortDescription,
       description,
       budget,
       deployment_time,
+      attachment,
     }
+    console.log('🚀 ~ file: new.tsx ~ line 102 ~ NewProductPage ~ addProduct ~ param', param)
 
     this.setState({ loading: true }, () => {
       addProduct(param).then((r) => {
@@ -222,6 +225,54 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
     )
   }
 
+  onChangeImage = (event) => {
+    const { files } = event.nativeEvent.target
+    const file = files[0]
+    if (file) {
+      resizeImage(file).then((result) => {
+        this.upload = true
+        uploadImage(file).then((r) => {
+          this.setState((s) => ({ attachment: [...s.attachment, r.data.id] }))
+          this.upload = false
+        })
+        const { errorImage, image } = result
+        if (!errorImage) {
+          this.setState({
+            avatar: image || '',
+          })
+          // this.fileAvatar = file
+        }
+      })
+    }
+  }
+
+  renderMedia = () => {
+    const { avatar } = this.state
+    return (
+      <Grid container className="field-input-product-new">
+        <Grid item md={12}>
+          <div className="txt-title-key-product-new">Ảnh *</div>
+        </Grid>
+        <input
+          accept="image/*"
+          style={{ display: 'none' }}
+          id="contained-button-file"
+          multiple
+          type="file"
+          onChange={this.onChangeImage}
+        />
+        <Grid container>
+          <CardMedia image={avatar} style={{ width: 200, height: 150 }} />
+          <label htmlFor="contained-button-file">
+            <Button variant="contained" color="primary" component="span">
+              Upload
+            </Button>
+          </label>
+        </Grid>
+      </Grid>
+    )
+  }
+
   render() {
     return (
       <>
@@ -236,6 +287,7 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
               {this.renderBudget()}
               {this.renderDevelopTime()}
               {this.renderSortDescription()}
+              {this.renderMedia()}
               {this.renderDescription()}
               {this.renderSubmit()}
             </Container>

@@ -1,0 +1,11 @@
+.txt-sort-description {
+    width: 100%;
+}
+.view-actions {
+    display: flex;
+    flex-direction: column;
+}
+.view-btn {
+    background-color: tomato;
+    color: white;
+}

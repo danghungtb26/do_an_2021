@@ -5,6 +5,7 @@ import { format_date } from 'src/constants'
 import moment from 'moment'
 import styles from 'src/styles/css/Product/ProductItem.module.css'
 import { CommentOutlined, ThumbUpAltOutlined, VisibilityOutlined } from '@material-ui/icons'
+import { baseUrlImage } from 'src/api/client'
 
 interface IProductItemOfViewProps {
   data: IPayloadProduct
@@ -22,7 +23,15 @@ const ProductItemOfView: React.FC<IProductItemOfViewProps> = (props) => {
     <Grid item xs={12} xl={6} lg={4} md={4} style={{ padding: 8 }} onClick={onClick}>
       <div className={`${styles['view-item']}`}>
         <div className={`${styles['view-image']}`}>
-          <img className={styles.image} src="/images/test.jpg" alt="" />
+          <img
+            className={styles.image}
+            src={
+              Array.isArray(data.attachment) && data.attachment.length > 0
+                ? `${baseUrlImage}${data.attachment[0]}`
+                : '/images/test.jpg'
+            }
+            alt=""
+          />
         </div>
 
         <div>

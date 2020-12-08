@@ -2,7 +2,7 @@ import { getUserInfo } from 'src/api'
 import type { IPayloadUser } from 'src/api/types'
 import cookies from 'next-cookies'
 import router from 'next/router'
-import { AUTHEN_TOKEN_WEB_TECK, roles } from 'src/constants'
+import { AUTHEN_TOKEN_ADMIN, AUTHEN_TOKEN_WEB_TECK, roles } from 'src/constants'
 
 // func lấy ra token trong cookie
 export const getInitialTokenProps = async (ctx: any) => {
@@ -20,6 +20,14 @@ export const getInitialTokenProps = async (ctx: any) => {
   }
 
   return { token, user: dataUser }
+}
+
+export const getInitialTokenAdminProps = async (ctx: any) => {
+  const cookies2 = cookies(ctx)
+
+  const token = cookies2[AUTHEN_TOKEN_ADMIN]
+
+  return { token }
 }
 
 export const getInitialTokenPropsAndCheck = async (ctx: any) => {

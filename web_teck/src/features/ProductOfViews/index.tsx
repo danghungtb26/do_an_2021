@@ -20,9 +20,12 @@ interface IProductListProps {
 const ProductList: React.FC<IProductListProps> = (props) => {
   const [data, setData] = React.useState<IPayloadProduct[]>([])
   const [count, setCount] = React.useState<number>(0)
-  const { page = 1, category = '' } = props
+  const { page = 1 } = props
 
-  const fetchData = async () => {
+  const router = useRouter()
+  const { category = '' } = router.query
+
+  const fetchData = React.useCallback(async () => {
     const authen = await localStorage.getItem(AUTHEN_TOKEN_WEB_TECK)
     const result = await getProductList({
       authen: authen || '',
@@ -30,19 +33,17 @@ const ProductList: React.FC<IProductListProps> = (props) => {
       limit: 12,
       sort: [{ name: 'created_at', desc: true }],
       keyword: '',
-      category,
+      category: (category as string) || '',
     })
     if (result.success) {
       setData(result.data as IPayloadProduct[])
       setCount(result.count as number)
     }
-  }
+  }, [category, page])
 
   React.useEffect(() => {
     fetchData()
   }, [page, category])
-
-  const router = useRouter()
 
   const onClickItem = (item: IPayloadProduct) => {
     router.push(`/product/${item.id}`)
@@ -90,7 +91,7 @@ const ProductList: React.FC<IProductListProps> = (props) => {
   return (
     <Container>
       <Grid container>
-        <CategoryBar category={category} />
+        <CategoryBar category={category as string} />
         <Grid
           item
           xs={12}

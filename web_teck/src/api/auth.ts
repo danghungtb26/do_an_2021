@@ -9,11 +9,12 @@ import type { IPayloadUser, IResponseApi } from './types'
 export const signIn: (param: {
   email: string
   password: string
-}) => Promise<IResponseApi<IPayloadUser>> = async ({ email, password }) => {
+  role?: string
+}) => Promise<IResponseApi<IPayloadUser>> = async ({ email, password, role = 'user' }) => {
   try {
     const query = gql`
-      mutation login($email: String!, $password: String!) {
-        login(user: { email: $email, password: $password }) {
+      mutation login($email: String!, $password: String!, $role: String) {
+        login(user: { email: $email, password: $password, role: $role }) {
           id
           role
           token
@@ -27,6 +28,7 @@ export const signIn: (param: {
       variables: {
         email,
         password,
+        role,
       },
     })
     return {

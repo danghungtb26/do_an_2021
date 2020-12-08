@@ -20,6 +20,7 @@ interface IProductDetailProps {
 
 const ProductDetail: React.FC<IProductDetailProps> = (props) => {
   const [data, setData] = React.useState<IPayloadProduct>()
+  console.log('🚀 ~ file: index.tsx ~ line 23 ~ data', data)
 
   const { id } = props
 

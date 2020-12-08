@@ -33,12 +33,12 @@ const ProductList: React.FC<IProductListProps> = (props) => {
   const getCategory = React.useCallback(() => {
     const index = data.findIndex((i) => `${i.id}` === `${category}`)
     return data[Math.max(index, 0)]?.id
-  }, [category])
+  }, [category, data])
 
   const renderItem = React.useCallback(
     (item) => {
       return (
-        <Link href={`product?category=${item.id}`}>
+        <Link key={item.id} href={`product?category=${item.id}`}>
           <div
             className={`${styles['view-category']} ${
               `${item.id}` === `${getCategory()}` ? styles['category-checked'] : ''
@@ -46,7 +46,7 @@ const ProductList: React.FC<IProductListProps> = (props) => {
         </Link>
       )
     },
-    [category]
+    [category, getCategory]
   )
 
   return (

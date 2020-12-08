@@ -2,7 +2,7 @@ export interface IResponseApi<T> {
   success: boolean
   message?: string
   code?: string
-  data?: T | T[]
+  data?: T
   page?: {
     current: number
     max: number
@@ -34,25 +34,26 @@ export interface IPayloadUser {
   created_at?: string
   status?: string | number
 }
-
+export interface IPayloadCategory extends IPayloadBase {
+  name?: string
+  description?: string
+  product_count?: string | number
+}
 export interface IPayloadProduct {
   id?: string
   title?: string
   keyword?: string
   sort_description?: string
   description?: string
+  category?: IPayloadCategory
   status?: number
+  attachment: Array<string>
   owner?: string | IPayloadUser
   author?: string | IPayloadUser
   react_count?: number
   comment_count?: number
+  high_light?: boolean
   view_count?: number
   updated_at?: string
   created_at?: string
-}
-
-export interface IPayloadCategory extends IPayloadBase {
-  name?: string
-  description?: string
-  product_count?: string | number
 }
