@@ -80,7 +80,7 @@ const AdminContactList: React.FC<IProps> = (props) => {
     return <div>{value?.name}</div>
   }
 
-  const renderInfo = (value) => {
+  const renderInfo = (value: any) => {
     try {
       const dataaa = JSON.parse(value)
       return (
