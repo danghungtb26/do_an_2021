@@ -1,0 +1,115 @@
+.view-image-user {
+    width: 48px;
+    height: 48px;
+    border-radius: 40px;
+    background-color: gray;
+}
+.image-user {
+
+}
+.view-user-info {
+    padding: 4px 0px 4px 12px;
+    /* align-items: center; */
+    /* display: flex; */
+}
+.txt-user-name {
+    font-size: 14px;
+    color: lightblue;
+
+}
+
+.row-info {
+    display: flex;
+    flex-direction: row;
+}
+.view-count {
+    color: lightgray;
+    
+    
+}
+.txt-count {
+    padding-left: 4px;
+    font-size: 12px;
+    padding-right: 12px;
+}
+
+.align-center {
+    align-items: center;
+    justify-content: center;
+}
+
+.txt-created-at {
+    font-size: 12px;
+    color: #9b9b9b!important;
+}
+
+.txt-title-article {
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.txt-sort-description-article {
+    font-size: 14px;
+    margin-top: 12px;
+    margin-bottom: 24px;
+}
+.line {
+    width: 100%;
+    height: 0.5px;
+    background-color: #9b9b9b;
+    margin: 12px 0px;
+}
+
+.txt-label-key {
+    font-size: 12px;
+    color: darkgray;
+}
+.view-created-at {
+    margin-top: 12px;
+}
+
+.txt-comment {
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.view-comment {
+    border: solid 1px #9b9b9b;
+    padding: 12px;
+}
+
+.view-user-comment {
+    align-items: center;
+    display: flex;
+}
+
+.view-image-user-comment {
+    width: 24px;
+    height: 24px;
+    border-radius: 20px;
+    background-color: #9b9b9b;
+}
+.txt-user-name-comment {
+    font-size: 14px;
+    color: lightblue;
+    padding-left: 12px;
+}
+
+.txt-content-comment {
+    padding-top: 8px;
+    color: dimgray;
+}
+.txt-comment-create {
+    font-size: 12px;
+    color: dimgray;
+    text-align: end;
+    justify-items: end;
+}
+
+.image {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    height: auto;
+}
