@@ -43,3 +43,8 @@ export const active_type: Record<string, any> = {
   inactive: 'inactive',
   reactive: 'reactive',
 }
+
+export const category_status = {
+  1: 'active',
+  0: 'inactive',
+}

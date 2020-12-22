@@ -7,6 +7,7 @@ import { addProduct, uploadImage } from 'src/api'
 
 import { Editor, Footer, Navbar } from 'src/components'
 import { resizeImage } from 'src/commons'
+import Header from 'src/components/Header/Header'
 
 interface INewProductPageProps {
   authen: string
@@ -276,24 +277,20 @@ class NewProductPage extends React.Component<INewProductPageProps, INewProductPa
   render() {
     return (
       <>
-        <Navbar />
-
-        <div className="site-section">
-          <div className="container">
-            <Container style={{ flex: 1, minHeight: '80vh' }}>
-              {this.renderHeader()}
-              {this.renderTitle()}
-              {this.renderKeyword()}
-              {this.renderBudget()}
-              {this.renderDevelopTime()}
-              {this.renderSortDescription()}
-              {this.renderMedia()}
-              {this.renderDescription()}
-              {this.renderSubmit()}
-            </Container>
-          </div>
+        <Header />
+        <div style={{ minHeight: '80vh', paddingTop: 100, paddingBottom: 100 }}>
+          <Container>
+            {this.renderHeader()}
+            {this.renderTitle()}
+            {this.renderKeyword()}
+            {this.renderBudget()}
+            {this.renderDevelopTime()}
+            {this.renderSortDescription()}
+            {this.renderMedia()}
+            {this.renderDescription()}
+            {this.renderSubmit()}
+          </Container>
         </div>
-        <Footer />
       </>
     )
   }

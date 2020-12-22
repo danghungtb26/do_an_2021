@@ -62,13 +62,13 @@ const ProductItemOfView: React.FC<IProductItemOfViewProps> = (props) => {
           <Grid item md={4}>
             <Grid container style={{ alignItems: 'center', display: 'flex' }}>
               <VisibilityOutlined className={styles['icon-view']} />
-              <div className={styles['txt-view']}>{`${data.react_count}`}</div>
+              <div className={styles['txt-view']}>{`${data.view_count}`}</div>
             </Grid>
           </Grid>
           <Grid item md={4}>
             <Grid container style={{ alignItems: 'center', display: 'flex' }}>
               <CommentOutlined className={styles['icon-view']} />
-              <div className={styles['txt-view']}>{`${data.react_count}`}</div>
+              <div className={styles['txt-view']}>{`${data.comment_count}`}</div>
             </Grid>
           </Grid>
         </Grid>

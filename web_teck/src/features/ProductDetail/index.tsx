@@ -8,11 +8,14 @@ import {
   VisibilityOutlined,
 } from '@material-ui/icons'
 import React from 'react'
-import { getProductDetail } from 'src/api'
+import { getProductDetail, updateView } from 'src/api'
 import type { IPayloadProduct, IPayloadUser } from 'src/api/types'
 import { AUTHEN_TOKEN_WEB_TECK, format_date } from 'src/constants'
 import styles from 'src/styles/css/Product/ProductDetail.module.css'
 import moment from 'moment'
+import { baseUrlImage } from 'src/api/client'
+import BaseButtonNotShadow from 'src/components/Buttons/BaseButtonNotShadow'
+import { DialogContact } from '../contact'
 
 interface IProductDetailProps {
   id: string | number
@@ -20,7 +23,7 @@ interface IProductDetailProps {
 
 const ProductDetail: React.FC<IProductDetailProps> = (props) => {
   const [data, setData] = React.useState<IPayloadProduct>()
-  console.log('🚀 ~ file: index.tsx ~ line 23 ~ data', data)
+  const dialogContact = React.useRef<any>()
 
   const { id } = props
 
@@ -30,6 +33,8 @@ const ProductDetail: React.FC<IProductDetailProps> = (props) => {
     if (result.success) {
       setData(result.data as IPayloadProduct)
     }
+
+    updateView(`${id}`)
   }
 
   React.useEffect(() => {
@@ -119,18 +124,27 @@ const ProductDetail: React.FC<IProductDetailProps> = (props) => {
                   </div>
                 </div>
               </div>
+
+              <BaseButtonNotShadow
+                style={{ marginTop: 40 }}
+                onClick={() => dialogContact?.current.show()}>
+                Liên hệ
+              </BaseButtonNotShadow>
             </div>
           </Grid>
         </Grid>
       </Grid>
     )
-  }, [data?.owner])
+  }, [data?.owner, dialogContact])
 
   const renderContent = React.useCallback(() => {
     if (!data) return null
     return (
       <div style={{ marginTop: 24 }}>
         <div className={`${styles['txt-title-article']}`}>{data?.title}</div>
+        {Array.isArray(data.attachment) && data.attachment.length > 0 ? (
+          <img className={styles.image} src={`${baseUrlImage}${data.attachment[0]}`} alt="" />
+        ) : null}
         <div className={`${styles['txt-sort-description-article']}`}>
           {`${data?.sort_description || ''}`.slice(0, 200)}
         </div>
@@ -175,7 +189,7 @@ const ProductDetail: React.FC<IProductDetailProps> = (props) => {
   }, [data?.id])
 
   return (
-    <Container>
+    <Container style={{ paddingTop: 100 }}>
       <Grid container style={{ padding: '24px' }}>
         <Grid item md={8}>
           {renderContent()}
@@ -189,6 +203,7 @@ const ProductDetail: React.FC<IProductDetailProps> = (props) => {
           {renderComment()}
         </Grid>
       </Grid>
+      <DialogContact ref={dialogContact} product={id} user={data?.owner.id} />
     </Container>
   )
 }

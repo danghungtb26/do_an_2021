@@ -1,18 +1,19 @@
-import { CircularProgress, Grid } from '@material-ui/core'
+import { Button, CircularProgress, Grid } from '@material-ui/core'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { adminGetListCategory } from 'src/api'
+import { adminGetListCategory, adminEditCategory } from 'src/api/admin/category'
 import type { IPayloadCategory } from 'src/api/types'
 import { CreateButton, DialogLoading, DialogLoadingMethod, Table } from 'src/components'
 import SideBarAdmin from 'src/components/admin/SideBar'
 import type { IColumn } from 'src/components/custom/Table'
+import { category_status } from 'src/constants'
+import { DialogCreate } from './DialogCreate'
+import styles from './styles.module.css'
 
 interface IProps {
   token?: string
 }
 
 const AdminCategoryList: React.FC<IProps> = (props) => {
-  const onClickCreate: () => void = () => {}
-
   const columns = useMemo<Array<IColumn>>(() => {
     return [
       {
@@ -29,6 +30,7 @@ const AdminCategoryList: React.FC<IProps> = (props) => {
         label: 'Trạng thái',
         width: 140,
         align: 'center',
+        format: (value) => <span>{category_status[value]}</span>,
       },
       {
         id: 'product_count',
@@ -41,6 +43,7 @@ const AdminCategoryList: React.FC<IProps> = (props) => {
         label: 'Actions',
         width: 160,
         align: 'center',
+        format: (value, item) => renderAction(item),
       },
     ]
   }, [])
@@ -48,7 +51,12 @@ const AdminCategoryList: React.FC<IProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(true)
   const [data, setData] = useState<IPayloadCategory[]>([])
   const refLoading = useRef<DialogLoadingMethod>()
+  const refCreate = useRef<any>()
   const { token } = props
+
+  const onClickCreate: () => void = () => {
+    refCreate.current?.show()
+  }
 
   useEffect(() => {
     adminGetListCategory({
@@ -69,6 +77,56 @@ const AdminCategoryList: React.FC<IProps> = (props) => {
     return <SideBarAdmin />
   }, [])
 
+  const onClickBtn = (type, item) => () => {
+    console.log('🚀 ~ file: index.tsx ~ line 78 ~ onClickBtn ~ type', type)
+
+    switch (type) {
+      case 'active':
+        refLoading.current?.show()
+        adminEditCategory({ authen: token || '', ...item, status: 1 })
+          .then((r) => {
+            console.log('🚀 ~ file: index.tsx ~ line 84 ~ .then ~ r', r)
+            if (r.success) {
+              setData((s: IPayloadCategory[]) => {
+                return s.map((i: IPayloadCategory) => {
+                  if (i.id === r.data?.id) return r.data as IPayloadCategory
+                  return i
+                })
+              })
+            }
+          })
+          .finally(() => {
+            refLoading.current?.hide()
+          })
+        break
+
+      case 'inactive':
+        refLoading.current?.show()
+        adminEditCategory({ authen: token || '', ...item, status: 0 })
+          .then((r) => {
+            if (r.success) {
+              console.log('🚀 ~ file: index.tsx ~ line 104 ~ .then ~ r', r)
+              setData((s: IPayloadCategory[]) => {
+                return s.map((i: IPayloadCategory) => {
+                  if (i.id === r.data?.id) return r.data as IPayloadCategory
+                  return i
+                })
+              })
+            }
+          })
+          .finally(() => {
+            refLoading.current?.hide()
+          })
+        break
+      case 'edit':
+        refCreate.current?.show(item)
+        break
+
+      default:
+        break
+    }
+  }
+
   const renderContent: () => React.ReactNode = () => {
     if (loading)
       return (
@@ -83,6 +141,39 @@ const AdminCategoryList: React.FC<IProps> = (props) => {
     )
   }
 
+  const renderAction = (item) => {
+    return (
+      <div className={`${styles['view-actions']}`}>
+        {item.status === 1 ? (
+          <Button onClick={onClickBtn('inactive', item)} color="inherit" style={styles_object.btn}>
+            Inactive
+          </Button>
+        ) : null}
+        {item.status === 0 ? (
+          <Button onClick={onClickBtn('active', item)} color="inherit" style={styles_object.btn}>
+            active
+          </Button>
+        ) : null}
+        <Button onClick={onClickBtn('edit', item)} color="inherit" style={styles_object.btn}>
+          edit
+        </Button>
+      </div>
+    )
+  }
+
+  const onCallBack = (check, item) => {
+    if (!check) {
+      setData((s: IPayloadCategory[]) => {
+        return s.map((i: IPayloadCategory) => {
+          if (i.id === item?.id) return item as IPayloadCategory
+          return i
+        })
+      })
+    } else {
+      setData((s) => [item, ...s])
+    }
+  }
+
   return (
     <Grid container>
       {renderSidebar()}
@@ -90,6 +181,7 @@ const AdminCategoryList: React.FC<IProps> = (props) => {
         <h2>Danh sách danh mục</h2>
         <CreateButton onClick={onClickCreate} />
         {renderContent()}
+        <DialogCreate authen={token || ''} ref={refCreate} onCallback={onCallBack} />
         <DialogLoading ref={refLoading} />
       </Grid>
     </Grid>
@@ -97,3 +189,7 @@ const AdminCategoryList: React.FC<IProps> = (props) => {
 }
 
 export default AdminCategoryList
+
+const styles_object = {
+  btn: { backgroundColor: 'orange', color: '#000', margin: '2px 0px' },
+}

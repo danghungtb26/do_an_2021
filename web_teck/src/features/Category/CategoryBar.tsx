@@ -1,6 +1,7 @@
 import { Grid } from '@material-ui/core'
 import Link from 'next/link'
 import React from 'react'
+import Sticky from 'react-stickynode'
 import { getCategoryList } from 'src/api/category'
 import type { IPayloadCategory } from 'src/api/types'
 import styles from 'src/styles/css/Category/CategoryBar.module.css'
@@ -51,7 +52,7 @@ const ProductList: React.FC<IProductListProps> = (props) => {
 
   return (
     <Grid item md={3}>
-      {data.map((item) => renderItem(item))}
+      <Sticky top={100}>{data.map((item) => renderItem(item))}</Sticky>
     </Grid>
   )
 }

@@ -1,11 +1,10 @@
 import React from 'react'
-import { Breadcrumb, Footer, Navbar, Sidebar } from 'src//components'
+import Header from 'src/components/Header/Header'
 
 const Contact = () => {
   return (
     <>
-      <Navbar />
-      <Breadcrumb />
+      <Header />
       <div className="site-section">
         <div className="container">
           <div className="row">
@@ -127,12 +126,9 @@ const Contact = () => {
                 </tbody>
               </table>
             </div>
-            <Sidebar />
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   )
 }

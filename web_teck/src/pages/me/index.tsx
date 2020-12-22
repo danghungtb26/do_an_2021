@@ -11,6 +11,7 @@ import { CommentOutlined, ThumbUpAltOutlined, VisibilityOutlined } from '@materi
 import { format_date, roles } from 'src/constants'
 import { checkTokenInInitial, getInitialTokenProps } from 'src/commons'
 import { ButtonLink, Footer, Navbar } from 'src/components'
+import Header from 'src/components/Header/Header'
 
 interface IMePageProps {
   user?: IPayloadUser
@@ -184,37 +185,30 @@ const MePage: NextPage<IMePageProps> = (props) => {
   const router = useRouter()
   return (
     <>
-      <Navbar {...props} />
-      {/* <Breadcrumb /> */}
+      <Header />
 
-      <div className="site-section">
-        <div className="container">
-          <Container style={{ minHeight: '100vh' }}>
-            <Grid container>
-              <Grid item md={3}>
-                <img src="/images/user_profile.png" alt="" />
-                <div style={{ marginTop: '24px', marginLeft: '24px' }}>
-                  <Link href={`${router.pathname}?tabindex=${tabvalue.profile}`}>
-                    <div className="txt-profile-menu">Thông tin</div>
-                  </Link>
-                  <Link href={`${router.pathname}?tabindex=${tabvalue.product}`}>
-                    <div className="txt-profile-menu">Sản phẩm ({user?.product_count})</div>
-                  </Link>
-                  <Link href={`${router.pathname}?tabindex=${tabvalue.article}`}>
-                    <div className="txt-profile-menu">Bài viết ({user?.article_count})</div>
-                  </Link>
-                </div>
-              </Grid>
+      <Container style={{ minHeight: '100vh', paddingTop: 100 }}>
+        <Grid container>
+          <Grid item md={3}>
+            <img style={{ width: 240, height: 240 }} src="/images/user_profile.png" alt="" />
+            <div style={{ marginTop: '24px', marginLeft: '24px' }}>
+              <Link href={`${router.pathname}?tabindex=${tabvalue.profile}`}>
+                <div className="txt-profile-menu">Thông tin</div>
+              </Link>
+              <Link href={`${router.pathname}?tabindex=${tabvalue.product}`}>
+                <div className="txt-profile-menu">Sản phẩm ({user?.product_count})</div>
+              </Link>
+              <Link href={`${router.pathname}?tabindex=${tabvalue.article}`}>
+                <div className="txt-profile-menu">Bài viết ({user?.article_count})</div>
+              </Link>
+            </div>
+          </Grid>
 
-              <Grid item md={9} style={{ padding: '24px' }}>
-                {renderTab()}
-              </Grid>
-            </Grid>
-          </Container>
-        </div>
-        {/* <Sidebar /> */}
-      </div>
-      <Footer />
+          <Grid item md={9} style={{ padding: '24px' }}>
+            {renderTab()}
+          </Grid>
+        </Grid>
+      </Container>
     </>
   )
 }

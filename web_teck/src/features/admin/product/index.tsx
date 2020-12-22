@@ -6,12 +6,11 @@ import {
   adminGetListProduct,
   adminActiveProduct,
   adminCheckBannerProduct,
-} from 'src/api'
+} from 'src/api/admin/product'
 import type { IColumn } from 'src/components/custom/Table'
 import type { IPayloadCategory, IPayloadProduct, IPayloadUser } from 'src/api/types'
 import { active_type, product_status, product_status_value } from 'src/constants'
 import { Pagination } from '@material-ui/lab'
-import { useRouter } from 'next/router'
 import styles from './styles.module.css'
 import { DialogAprove, DialogAproveMethod } from './DialogAprove'
 

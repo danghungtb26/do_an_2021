@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect } from 'react'
 import Slider from 'react-slick'
 import { getProductBanner } from 'src/api'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 import { baseUrlImage } from 'src/api/client'
 import type { IPayloadProduct } from 'src/api/types'
 import { AUTHEN_TOKEN_WEB_TECK } from 'src/constants'
+import { Container } from '@material-ui/core'
 import styles from '../css/banner.module.css'
 
 interface IProps {}
@@ -50,12 +53,12 @@ const Banner: React.FC<IProps> = () => {
   }, [])
 
   return (
-    <div className={styles.container}>
-      <h2>Bài viết nổi bật</h2>
-      <Slider autoplay autoplaySpeed={2000} slidesToScroll={1} slidesToShow={5}>
+    <Container className={styles.container}>
+      {/* <h2>Bài viết nổi bật</h2> */}
+      <Slider autoplay rows={1} autoplaySpeed={2000} slidesToScroll={1} slidesToShow={5}>
         {data.map(renderItem)}
       </Slider>
-    </div>
+    </Container>
   )
 }
 

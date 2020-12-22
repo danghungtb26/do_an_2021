@@ -35,6 +35,7 @@ const ProductList: React.FC<IProductListProps> = (props) => {
       keyword: '',
       category: (category as string) || '',
     })
+    console.log('🚀 ~ file: index.tsx ~ line 38 ~ fetchData ~ result', result)
     if (result.success) {
       setData(result.data as IPayloadProduct[])
       setCount(result.count as number)
@@ -42,8 +43,13 @@ const ProductList: React.FC<IProductListProps> = (props) => {
   }, [category, page])
 
   React.useEffect(() => {
+    console.log('object')
+  }, [])
+
+  React.useEffect(() => {
+    console.log('asd')
     fetchData()
-  }, [page, category])
+  }, [page, category, fetchData])
 
   const onClickItem = (item: IPayloadProduct) => {
     router.push(`/product/${item.id}`)

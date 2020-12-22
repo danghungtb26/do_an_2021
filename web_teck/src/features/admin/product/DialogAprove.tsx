@@ -3,7 +3,8 @@ import Dialog from '@material-ui/core/Dialog'
 import { Button, Checkbox, CircularProgress } from '@material-ui/core'
 import { PaperComponent } from 'src/components'
 import type { IPayloadCategory, IPayloadProduct } from 'src/api/types'
-import { adminAproveProduct, adminGetListCategory } from 'src/api'
+import { adminAproveProduct } from 'src/api/admin/product'
+import { adminGetListCategory } from 'src/api/admin/category'
 
 interface IProps {
   token?: string | null

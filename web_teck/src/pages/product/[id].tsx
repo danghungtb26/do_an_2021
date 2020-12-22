@@ -1,6 +1,6 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import React from 'react'
-import { Navbar } from 'src/components'
+import Header from 'src/components/Header/Header'
 import ProductDetail from 'src/features/ProductDetail'
 
 interface IProductDetailPageProps {
@@ -11,7 +11,7 @@ const ProductDetailPage: NextPage<IProductDetailPageProps> = (props) => {
   const { id } = props
   return (
     <>
-      <Navbar />
+      <Header />
       <div style={{ minHeight: '80vh' }}>
         <ProductDetail id={id} />
       </div>

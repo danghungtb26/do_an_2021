@@ -102,6 +102,7 @@ export const getProductList: (props: {
             keyword
             react_count
             comment_count
+            attachment
             view_count
             owner {
               id
@@ -163,6 +164,7 @@ export const getProductDetail: (props: {
           description
           react_count
           comment_count
+          attachment
           view_count
           budget
           deployment_time
@@ -171,6 +173,7 @@ export const getProductDetail: (props: {
             introduction
             phone
             email
+            name
           }
         }
       }
@@ -209,15 +212,15 @@ export const updateView: (id: string) => Promise<IResponseApi<IPayloadProduct>> 
         }
       }
     `
-    const result = await client.query<{ get_product_by_id: IPayloadProduct }>({
-      query: queryString,
+    const result = await client.mutate<{ update_view_product: IPayloadProduct }>({
+      mutation: queryString,
       variables: {
         id,
       },
     })
     return {
       success: true,
-      data: result.data.get_product_by_id,
+      data: result.data.update_view_product,
     }
   } catch (error) {
     return {
@@ -445,6 +448,39 @@ export const getProductBanner: (props: {
       count: result?.data?.get_product_banner?.paging?.count ?? 0,
       skip,
       limit,
+    }
+  } catch (error) {
+    return {
+      success: false,
+      message: error?.message ?? error?.response?.message ?? '',
+    }
+  }
+}
+
+export const send_contact = async ({ authen, user, product, info }) => {
+  const ss = gql`
+    mutation($user: String, $info: String, $product: String) {
+      send_contact(param: { info: $info, product_id: $product, to_user: $user }) {
+        id
+      }
+    }
+  `
+  try {
+    const result = await client.mutate<{
+      send_contact: any
+    }>({
+      mutation: ss,
+      variables: { user, product, info },
+      context: {
+        headers: {
+          authorization: `Bearer ${authen}`,
+        },
+      },
+    })
+
+    return {
+      success: true,
+      data: result.data?.send_contact ?? {},
     }
   } catch (error) {
     return {

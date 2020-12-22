@@ -61,6 +61,7 @@ export const getProductListOfUser: (props: {
   skip?: number
   limit?: number
   keyword?: string
+  sort?: Array<any>
 }) => Promise<IResponseApi<IPayloadProduct[]>> = async ({
   authen,
   id,
@@ -89,6 +90,10 @@ export const getProductListOfUser: (props: {
             comment_count
             view_count
             created_at
+            category {
+              id
+              name
+            }
           }
           paging {
             count
@@ -105,7 +110,7 @@ export const getProductListOfUser: (props: {
       }
     }>({
       query: queryString,
-      variables: { user: id, limit, skip, keyword, sort: [{ name: 'created_at', desc: true }] },
+      variables: { user: id, limit, skip, keyword, sort: [{ name: 'updated_at', desc: true }] },
       context: {
         headers: {
           authorization: `Bearer ${authen}`,

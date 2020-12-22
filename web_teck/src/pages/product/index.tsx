@@ -1,10 +1,9 @@
-import type { GetServerSideProps, GetStaticProps, NextPage } from 'next'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import React from 'react'
-import { getProductList } from 'src/api'
-import { getInitialTokenProps } from 'src/commons'
-import { Footer, Navbar } from 'src/components'
+import Header from 'src/components/Header/Header'
 import { ProductOfViews } from 'src/features'
+import Banner from 'src/features/home/Components/Banner'
 
 interface IProductProps {
   page: number
@@ -19,8 +18,9 @@ const ProductPage: NextPage<IProductProps> = (props) => {
       <Head>
         <title>Tri thức</title>
       </Head>
-      <Navbar />
-      <div style={{ minHeight: '80vh' }}>
+      <Header />
+      <div style={{ minHeight: '80vh', paddingTop: 100 }}>
+        <Banner />
         <ProductOfViews page={page} category={category} />
       </div>
       {/* <Footer /> */}

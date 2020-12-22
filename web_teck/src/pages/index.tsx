@@ -1,33 +1,11 @@
 import React from 'react'
 
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
-import Home from 'src/features/home'
-import { Footer, Navbar } from '../components'
-import { getInitialTokenProps } from '../commons'
+import { useRouter } from 'next/router'
 
-export default function Home2(props) {
+export default function Home2() {
+  const router = useRouter()
   React.useEffect(() => {
-    return () => {
-      console.log('unmout')
-    }
+    router.replace('/product')
   })
-  return (
-    <>
-      <Navbar {...props} />
-      <Home />
-
-      <Footer />
-    </>
-  )
-}
-
-Home2.getInitialProps = async (ctx: any) => {
-  const { token, user } = await getInitialTokenProps(ctx)
-  console.log('user', user)
-  console.log('Home.getInitialProps -> cookies2', token)
-
-  // console.log('object')
-
-  return { authen: token, user }
+  return null
 }
